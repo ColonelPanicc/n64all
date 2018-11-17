@@ -19,7 +19,7 @@ app = Flask(__name__, static_url_path='/static')
 app.config['SECRET_KEY'] = 'georgepricehasaf'
 
 state = {
-    str(i) :{
+    PLAYER :{
         "ANALOG": (0,0),
         "A_BTN": 0,
         "B_BTN": 0,
@@ -31,7 +31,7 @@ state = {
         "L_TRIGGER": 0,
         "R_TRIGGER": 0,
         "START": 0,
-    } for i in range(PLAYERS)
+    }
 }
 
 
