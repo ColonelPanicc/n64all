@@ -5,8 +5,9 @@ from schema import Schema, And, Use, Optional, SchemaError
 from bee import *
 from input import Input, Analog
 from input_types import InputTypes
+from json import loads
 from controller import Controller
-from ollie_adapter import OllieAdapter
+from adapter import MikeAdapter, OllieAdapter
 
 NUM_CONTROLLERS = 4
 
@@ -57,12 +58,18 @@ def update(player: int=0, input: str="", active: bool=None, x: int=None, y: int=
         """
 
 
-
-
 @hug.post('/update')
 def update(body):
 
-    return repr(body)
+    formatted_body = loads(body)
+
+    for player in formatted_body:
+        print(player)
+        controllers[int(player)] = MikeAdapter().convert(formatted_body[player])
+
+    print(controllers)
+
+    return ";) X"
 
 
 @hug.get('/test', output=hug.output_format.text)
