@@ -56,3 +56,6 @@ dkms.conf
 
 #mac os can die
 *.DS_Store
+node_modules
+*.idea/*
+*__pycache__/
