@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/georgeprice/n64all/issues"
   },
-  "homepage": "https://github.com/georgeprice/n64all#readme"
+  "homepage": "https://github.com/georgeprice/n64all#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
 }
