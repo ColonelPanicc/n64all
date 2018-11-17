@@ -11,7 +11,7 @@
 #include "controller.h"
 
 /* global data definitions */
-SController controller[1];  // 1 controller
+SController controller[4];  // 1 controller
 
 /* static data definitions */
 static void (*l_DebugCallback)(void *, int, const char *) = NULL;
@@ -91,15 +91,17 @@ EXPORT m64p_error CALL PluginGetVersion(m64p_plugin_type *PluginType, int *Plugi
 EXPORT void CALL InitiateControllers(CONTROL_INFO ControlInfo)
 {
     // reset controllers
-    memset(controller, 0, sizeof( SController ));
+    memset(controller, 0, sizeof( SController ) * 4);
 
     // set our CONTROL struct pointers to the array that was passed in to this function from the core
     // this small struct tells the core whether each controller is plugged in, and what type of pak is connected
-    controller[0].control = ControlInfo.Controls;
+    for(int i = 0; i < 4; ++i){
+      controller[i].control = ControlInfo.Controls;
 
-    // init controller
-    controller[0].control->Present = 1;
-    controller[0].control->Plugin = PLUGIN_NONE;
+      // init controller
+      controller[i].control->Present = 1;
+      controller[i].control->Plugin = PLUGIN_NONE;
+    }
 
     DebugMessage(M64MSG_INFO, "%s version %i.%i.%i initialized.", PLUGIN_NAME, VERSION_PRINTF_SPLIT(PLUGIN_VERSION));
 }
@@ -174,10 +176,10 @@ EXPORT void CALL GetKeys( int Control, BUTTONS *Keys )
     read_controller();
 
     #ifdef _DEBUG
-      DebugMessage(M64MSG_VERBOSE, "Controller #%d value: 0x%8.8X", 0, *(int *)&controller[0].buttons );
+      DebugMessage(M64MSG_VERBOSE, "Controller #%d value: 0x%8.8X", 0, *(int *)&controller[Control].buttons );
     #endif
 
-    *Keys = controller[0].buttons;
+    *Keys = controller[Control].buttons;
 }
 
 /******************************************************************
