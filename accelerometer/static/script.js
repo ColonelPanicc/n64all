@@ -1,13 +1,13 @@
-window.addEventListener("deviceorientation", handleOrientation, true);
+window.addEventListener("devicemotion", handleMotion, true);
 
-function handleOrientation(event) {
+function handleMotion(event) {
     let xmlhttp = new XMLHttpRequest();
     xmlhttp.open("POST", "/acc");
     xmlhttp.setRequestHeader("Content-Type", "application/json");
+    rot = event.rotationRate;
     xmlhttp.send(JSON.stringify({
-        absolute: event.absolute,
-        alpha : event.alpha,
-        beta : event.beta,
-        gamma : event.gamma,
+        alpha : rot.alpha,
+        beta : rot.beta,
+        gamma : rot.gamma,
     }));
 }
