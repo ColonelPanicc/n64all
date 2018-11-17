@@ -2,3 +2,4 @@ mariokart.z64
 *.DS_Store
 node_modules
 *.idea/*
+*__pycache__/
