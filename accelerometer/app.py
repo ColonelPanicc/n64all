@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, url_for, redirect, make_response
 import json
+import math
 
 app = Flask(__name__, static_url_path='/static')
 app.config['SECRET_KEY'] = 'georgepricehasaf'
@@ -12,12 +13,15 @@ def login():
 
 @app.route('/acc', methods=['POST'])
 def acc():
-    forward = json.loads(request.data)
-    forward = request.data['alpha']
-    # beta = request.data['beta']
-    # gamma = request.data['gamma']
-    print(forward)
+    data = json.loads(request.data)
+    forward = data['gamma']
+    right = data['beta']
+
+    print('{} forward  {} right'.format(forward, right))
     return json.dumps(request.json)
+
+def send_to_api():
+    url = "http://localhost:8000/"
 
 if __name__ == '__main__':
     print('hello')
