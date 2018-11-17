@@ -1,6 +1,7 @@
 from input_types import InputTypes
 from input import Input, Analog
 
+
 class Controller:
 
     def __init__(self):
@@ -24,5 +25,5 @@ class Controller:
         }
 
     def get_state(self):
-        return {i.name : s.get_state() for i,s in self._buttons.items()}
+        return {i.name: s.get_state() for i, s in self._buttons.items()}
 
