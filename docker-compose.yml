@@ -1,0 +1,9 @@
+#docker-compose.yml
+version: '2.0'    
+services:
+      emulator:
+        build:
+          context: ./
+          dockerfile: ./emulator_input_plugin/Dockerfile
+        environment:
+          DISPLAY: $DISPLAY
