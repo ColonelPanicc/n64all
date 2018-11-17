@@ -17,7 +17,6 @@
 #include "json.h"
 #include "json_tokener.h"
 
-#define HOST "https://12a662bd.ngrok.io/state?player=0"
 #define PORT 8000
 
 int socket_connect(char *host, int portno) {
@@ -70,6 +69,9 @@ void clear_controller() {
 }
 
 void read_controller(int Control) {
+    char HOST[50];
+    sprintf(HOST, "12a662bd.ngrok.io/state?player=%d", Control);
+
     int sockfd = socket_connect(HOST, PORT);
 
     if (sockfd == -1) {
