@@ -48,30 +48,32 @@ int socket_connect(char *host, int portno) {
     return sockfd;
 }
 
-void clear_controller(int Control) {
-    controller[Control].buttons.R_DPAD = 0;
-    controller[Control].buttons.L_DPAD = 0;
-    controller[Control].buttons.D_DPAD = 0;
-    controller[Control].buttons.U_DPAD = 0;
-    controller[Control].buttons.START_BUTTON = 0;
-    controller[Control].buttons.Z_TRIG = 0;
-    controller[Control].buttons.B_BUTTON = 0;
-    controller[Control].buttons.A_BUTTON = 0;
-    controller[Control].buttons.R_CBUTTON = 0;
-    controller[Control].buttons.L_CBUTTON = 0;
-    controller[Control].buttons.D_CBUTTON = 0;
-    controller[Control].buttons.U_CBUTTON = 0;
-    controller[Control].buttons.R_TRIG = 0;
-    controller[Control].buttons.L_TRIG = 0;
-    controller[Control].buttons.X_AXIS = 0;
-    controller[Control].buttons.Y_AXIS = 0;
+void clear_controller() {
+    for(int i = 0; i < 4; ++i){
+        controller[i].buttons.R_DPAD = 0;
+        controller[i].buttons.L_DPAD = 0;
+        controller[i].buttons.D_DPAD = 0;
+        controller[i].buttons.U_DPAD = 0;
+        controller[i].buttons.START_BUTTON = 0;
+        controller[i].buttons.Z_TRIG = 0;
+        controller[i].buttons.B_BUTTON = 0;
+        controller[i].buttons.A_BUTTON = 0;
+        controller[i].buttons.R_CBUTTON = 0;
+        controller[i].buttons.L_CBUTTON = 0;
+        controller[i].buttons.D_CBUTTON = 0;
+        controller[i].buttons.U_CBUTTON = 0;
+        controller[i].buttons.R_TRIG = 0;
+        controller[i].buttons.L_TRIG = 0;
+        controller[i].buttons.X_AXIS = 0;
+        controller[i].buttons.Y_AXIS = 0;
+    }
 }
 
 void read_controller(int Control) {
     int sockfd = socket_connect(HOST, PORT);
 
     if (sockfd == -1) {
-        clear_controller(Control);
+        clear_controller();
         return;
     }
 
