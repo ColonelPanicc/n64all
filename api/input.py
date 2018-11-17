@@ -41,7 +41,7 @@ class Analog(Input):
 
     def set_x(self, x) -> None:
         if not isinstance(x, int):
-            raise TypeError("New x needs to be a float dude")
+            raise TypeError("New x needs to be a int dude")
         elif x is None:
             raise ValueError("New x can't be None you dingus")
         elif x < -80:
@@ -52,7 +52,7 @@ class Analog(Input):
 
     def set_y(self, y) -> None:
         if not isinstance(y, int):
-            raise TypeError("New y needs to be a float dude")
+            raise TypeError("New y needs to be a int dude")
         elif y is None:
             raise ValueError("New y can't be None you dingus")
         elif y < -80:

@@ -1,8 +1,23 @@
+from input_types import InputTypes
 
-KEYWORD_CONVERSION = {
-    'START': 'START_BUTTON',
-    ''
+
+BUTTON_KEYWORD_CONVERSION = {
+    "START" : "START_BUTTON",
+    "C_UP_ARR" : "U_CBUTTON",
+    "D_L_ARR" : "L_DPAD",
+    "A_BTN" : "A_BUTTON",
+    "B_BTN" : "B_BUTTON",
+    "C_L_ARR" : "L_CBUTTON",
+    "C_R_ARR" : "R_CBUTTON",
+    "R_TRIGGER" : "R_TRIG",
+    "D_R_ARR" : "R_DPAD",
+    "C_D_ARR" : "D_CBUTTON",
+    "Z_BTN" : "Z_TRIG",
+    "L_TRIGGER" : "L_TRIG",
+    "D_UP_ARR" : "U_DPAD",
+    "D_D_ARR" : "D_DPAD"
 }
+
 
 class OllieAdapter:
 
@@ -11,39 +26,13 @@ class OllieAdapter:
 
     @staticmethod
     def convert(state):
+        new_state = {}
+        for id, s in state.items():
+            if id in BUTTON_KEYWORD_CONVERSION:
+                new_state[BUTTON_KEYWORD_CONVERSION[id]] = int(s['active'])
+            elif id == InputTypes.ANALOG.name:
+                new_state['X_AXIS'] = int(s['x'])
+                new_state['Y_AXIS'] = int(s['y'])
+        return new_state
 
-        # LEFT_ANALOG = "L_ANALOG"
-        # RIGHT_ANALOG = "R_ANALOG"
-        #
-        # LEFT_TRIGGER = "L_TRIGGER"
-        # RIGHT_TRIGGER = "R_TRIGGER"
-        #
-        # A_BUTTON = "A_BTN"
-        # B_BUTTON = "B_BTN"
-        # Z_BUTTON = "Z_BTN"
-        #
-        # UP_ARROW = "UP_ARR"
-        # LEFT_ARROW = "L_ARR"
-        # RIGHT_ARROW = "R_ARR"
-        # DOWN_ARROW = "D_ARR"
-        #
-        # START = "START"
 
-    # {
-    #     "START_BUTTON": 0,
-    #     "U_CBUTTON": 0,
-    #     "L_DPAD": 0,
-    #     "A_BUTTON": 1,
-    #     "B_BUTTON": 0,
-    #     "X_AXIS": -80,
-    #     "L_CBUTTON": 0,
-    #     "R_CBUTTON": 0,
-    #     "R_TRIG": 0,
-    #     "R_DPAD": 0,
-    #     "D_CBUTTON": 0,
-    #     "Z_TRIG": 0,
-    #     "Y_AXIS": 80,
-    #     "L_TRIG": 0,
-    #     "U_DPAD": 0,
-    #     "D_DPAD": 0
-    # }

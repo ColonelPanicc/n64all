@@ -6,16 +6,19 @@ from bee import *
 from input import Input, Analog
 from input_types import InputTypes
 from controller import Controller
+from ollie_adapter import OllieAdapter
 
 NUM_CONTROLLERS = 4
 
+
+ollie_adapter = OllieAdapter()
 controllers = {i: Controller() for i in range(NUM_CONTROLLERS)}
 
 
 @hug.get('/state', output=hug.output_format.json)
 def get_state(player: int=0):
     try:
-        return controllers[player].get_state()
+        return ollie_adapter.convert(controllers[player].get_state())
     except KeyError:
         return { 'Error' : "That's not a valid player my dude" }
 
@@ -23,8 +26,8 @@ def get_state(player: int=0):
 player_schema = Schema(And(int, Use(int), lambda x: 0 <= x <= NUM_CONTROLLERS))
 input_schema = Schema(And(str, Use(str), Use(str.upper), lambda x: x in [y.value for y in InputTypes]))
 active_schema = Schema(Optional(bool))
-angle_schema = Schema(And(Optional(int), Use(float), lambda  x: -80 <= x <= 80))
-tilt_schema = Schema(And(Optional(int), Use(float), lambda  x: -80 <= x <= 80))
+angle_schema = Schema(And(Optional(int), Use(int), lambda  x: -80 <= x <= 80))
+tilt_schema = Schema(And(Optional(int), Use(int), lambda  x: -80 <= x <= 80))
 
 @hug.post('/update')
 def update(player: int=0, input: str="", active: bool=None, x: int=None, y: int=None):
