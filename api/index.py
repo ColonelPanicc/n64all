@@ -23,17 +23,17 @@ def get_state(player: int=0):
 player_schema = Schema(And(int, Use(int), lambda x: 0 <= x <= NUM_CONTROLLERS))
 input_schema = Schema(And(str, Use(str), Use(str.upper), lambda x: x in [y.value for y in InputTypes]))
 active_schema = Schema(Optional(bool))
-angle_schema = Schema(And(Optional(float), Use(float), lambda  x: 0 <= x <= 360))
-tilt_schema = Schema(And(Optional(float), Use(float), lambda  x: 0 <= x <= 1))
+angle_schema = Schema(And(Optional(int), Use(float), lambda  x: -80 <= x <= 80))
+tilt_schema = Schema(And(Optional(int), Use(float), lambda  x: -80 <= x <= 80))
 
 @hug.post('/update')
-def update(player: int=0, input: str="", active: bool=None, angle: float=None, tilt: float=None):
+def update(player: int=0, input: str="", active: bool=None, x: int=None, y: int=None):
     try:
         player = player_schema.validate(player)
         input = input_schema.validate(input)
         active = active_schema.validate(active)
-        angle = angle_schema.validate(angle)
-        tilt = tilt_schema.validate(tilt)
+        x = angle_schema.validate(x)
+        y = tilt_schema.validate(y)
     except SchemaError as e:
         print(e)
         return {'Error' : str(e)}
@@ -42,11 +42,11 @@ def update(player: int=0, input: str="", active: bool=None, angle: float=None, t
     input = controller.get_button(input)
 
     if isinstance(input, Analog):
-        if angle:
-            input.set_angle(angle)
+        if x:
+            input.set_x(x)
 
-        if tilt:
-            input.set_tilt(tilt)
+        if y:
+            input.set_y(y)
 
     if active:
         input.set_active(active)

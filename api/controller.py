@@ -6,8 +6,7 @@ class Controller:
 
     def __init__(self):
         self._buttons = {
-            InputTypes.LEFT_ANALOG.value: Analog(),
-            InputTypes.RIGHT_ANALOG.value: Analog(),
+            InputTypes.ANALOG.value: Analog(),
 
             InputTypes.LEFT_TRIGGER.value: Analog(),
             InputTypes.RIGHT_TRIGGER.value: Analog(),
@@ -16,10 +15,15 @@ class Controller:
             InputTypes.B_BUTTON.value: Input(),
             InputTypes.Z_BUTTON.value: Input(),
 
-            InputTypes.UP_ARROW.value: Input(),
-            InputTypes.LEFT_ARROW.value: Input(),
-            InputTypes.RIGHT_ARROW.value: Input(),
-            InputTypes.DOWN_ARROW.value: Input(),
+            InputTypes.C_UP_ARROW.value: Input(),
+            InputTypes.C_LEFT_ARROW.value: Input(),
+            InputTypes.C_RIGHT_ARROW.value: Input(),
+            InputTypes.C_DOWN_ARROW.value: Input(),
+
+            InputTypes.D_UP_ARROW.value: Input(),
+            InputTypes.D_LEFT_ARROW.value: Input(),
+            InputTypes.D_RIGHT_ARROW.value: Input(),
+            InputTypes.D_DOWN_ARROW.value: Input(),
 
             InputTypes.START.value: Input(),
         }

@@ -31,40 +31,40 @@ class Analog(Input):
 
     def __init__(self):
         super().__init__()
-        self._angle, self._tilt = 0, 0
+        self._x, self._y = 0, 0
 
-    def get_angle(self) -> int:
-        return self._angle
+    def get_x(self) -> int:
+        return self._x
 
-    def get_tilt(self) -> int:
-        return self._tilt
+    def get_y(self) -> int:
+        return self._y
 
-    def set_angle(self, new_angle) -> None:
-        if not isinstance(new_angle, float):
-            raise TypeError("New angle needs to be a float dude")
-        elif new_angle is None:
-            raise ValueError("New angle can't be None you dingus")
-        elif new_angle < 0:
-            raise ValueError("New angle is a little boi")
-        elif new_angle > 360:
-            raise ValueError("New angle is a big boi")
-        self._angle = new_angle
+    def set_x(self, x) -> None:
+        if not isinstance(x, int):
+            raise TypeError("New x needs to be a float dude")
+        elif x is None:
+            raise ValueError("New x can't be None you dingus")
+        elif x < -80:
+            raise ValueError("New x is a little boi")
+        elif x > 80:
+            raise ValueError("New x is a big boi")
+        self._x = x
 
-    def set_tilt(self, tilt) -> None:
-        if not isinstance(tilt, float):
-            raise TypeError("Tilt needs to be a float dude")
-        elif tilt is None:
-            raise ValueError("Tilt can't be None you dingus")
-        elif tilt < 0:
-            raise ValueError("Tilt is a little boi")
-        elif tilt > 1:
-            raise ValueError("Tilt is a big boi")
-        self._tilt = tilt
+    def set_y(self, y) -> None:
+        if not isinstance(y, int):
+            raise TypeError("New y needs to be a float dude")
+        elif y is None:
+            raise ValueError("New y can't be None you dingus")
+        elif y < -80:
+            raise ValueError("New y is a little boi")
+        elif y > 80:
+            raise ValueError("New y is a big boi")
+        self._y = y
 
     def get_state(self):
         s = {
-            'angle': self.get_angle(),
-            'tilt': self.get_tilt()
+            'x': self.get_x(),
+            'y': self.get_y()
         }
         s.update(super().get_state())
         return s
