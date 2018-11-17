@@ -7,8 +7,8 @@ class PyAxisMap(Enum):
     LEFT_THUMB_Y = 1        # +ve direction is down
     RIGHT_THUMB_X = 2       # +ve direction is right
     RIGHT_THUMB_Y = 3       # +ve direction is down
-    RIGHT_TRIGGER = 4       # +ve direction is
-    LEFT_TRIGGER = 5        # +ve direction is
+    RIGHT_TRIGGER = 4       # +ve direction is pushed in
+    LEFT_TRIGGER = 5        # +ve direction is pushed in
 
 
 class PyButtonMap(Enum):
@@ -25,4 +25,9 @@ class PyButtonMap(Enum):
     LEFT_THUMB_IN = 9
     RIGHT_THUMB_IN = 10
 
-# NOTE for DPAD (it's a hat) you get ONE hat, which is a tuple of (horizontal [-1 or 0 or 1], vertical [-1 or 0 or 1])
+
+class PyHatMap(Enum):
+    # NOTE for DPAD (it's a hat) you get ONE hat, which is a tuple of
+    # (horizontal [-1 = left or 0 or 1 = right], vertical [-1 = down or 0 or 1 = up])
+    # Access as integers by using PyAxisMap.NAME_HERE.value
+    DPAD = 0
