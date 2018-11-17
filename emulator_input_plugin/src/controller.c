@@ -19,38 +19,37 @@
 #include "json_tokener.h"
 
 #define PORT 8000
+#define HOST "localhost"
+#define _DEBUG 1
 
 int socket_connect(char *host, int portno) {
-    struct addrinfo hints, *servinfo, *p;
-    struct sockaddr_in *serv_addr;
-    int sockfd, rv;
-
-    memset(&hints, 0, sizeof(hints));
-    hints.ai_family = AF_UNSPEC;
-    hints.ai_socktype = SOCK_STREAM;
+    struct hostent *server;
+    struct sockaddr_in serv_addr;
+    int sockfd;
 
     /* create the socket */
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0) DebugMessage(M64MSG_ERROR, "ERROR opening socket");
 
     /* lookup the ip address */
-    if (rv = getaddrinfo(host, "http", &hints, &servinfo) != 0) DebugMessage(M64MSG_ERROR, "ERROR, no such host");
+    server = gethostbyname(host);
+    if (server == NULL) DebugMessage(M64MSG_ERROR, "ERROR, no such host");
 
     /* fill in the structure */
-    for(p = servinfo; p != NULL; p = p->ai_next){
-        serv_addr = (struct sockaddr_in *) p->ai_addr;
-    }
+    memset(&serv_addr, 0, sizeof(serv_addr));
+    serv_addr.sin_family = AF_INET;
+    serv_addr.sin_port = htons(portno);
+    memcpy(&serv_addr.sin_addr.s_addr, server->h_addr, server->h_length);
 
     /* connect the socket */
-    if (connect(sockfd, (struct sockaddr *)serv_addr, sizeof(*serv_addr)) < 0) {
+    if (connect(sockfd, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {
         DebugMessage(M64MSG_INFO, "ERROR connecting, please start bot server.");
         return -1;
     }
 
-    freeaddrinfo(servinfo);
-
     return sockfd;
 }
+
 
 void clear_controller() {
     for(int i = 0; i < 4; ++i){
@@ -74,8 +73,6 @@ void clear_controller() {
 }
 
 void read_controller(int Control) {
-    char HOST[50];
-    sprintf(HOST, "12a662bd.ngrok.io/state?player=%d", Control);
 
     int sockfd = socket_connect(HOST, PORT);
 
@@ -86,7 +83,7 @@ void read_controller(int Control) {
 
     int bytes, sent, received, total;
     char message[1024], response[4096]; // allocate more space than required.
-    sprintf(message, "GET / HTTP/1.0\r\n\r\n");
+    sprintf(message, "GET /state?player=%d HTTP/1.0\r\n\r\n", Control);
 
     /* send the request */
     total = strlen(message);

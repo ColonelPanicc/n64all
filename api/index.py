@@ -19,7 +19,9 @@ controllers = {i: Controller() for i in range(NUM_CONTROLLERS)}
 @hug.get('/state', output=hug.output_format.json)
 def get_state(player: int=0):
     try:
-        return ollie_adapter.convert(controllers[player].get_state())
+        state = ollie_adapter.convert(controllers[player].get_state())
+        print(state)
+        return state
     except KeyError:
         return { 'Error' : "That's not a valid player my dude" }
 
@@ -64,10 +66,8 @@ def update(body):
     formatted_body = loads(body)
 
     for player in formatted_body:
-        print(player)
         controllers[int(player)] = MikeAdapter().convert(formatted_body[player])
 
-    print(controllers)
 
     return ";) X"
 
