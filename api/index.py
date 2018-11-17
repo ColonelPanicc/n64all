@@ -29,6 +29,7 @@ active_schema = Schema(Optional(bool))
 angle_schema = Schema(And(Optional(int), Use(int), lambda  x: -80 <= x <= 80))
 tilt_schema = Schema(And(Optional(int), Use(int), lambda  x: -80 <= x <= 80))
 
+"""
 @hug.post('/update')
 def update(player: int=0, input: str="", active: bool=None, x: int=None, y: int=None):
     try:
@@ -53,7 +54,15 @@ def update(player: int=0, input: str="", active: bool=None, x: int=None, y: int=
 
     if active:
         input.set_active(active)
+        """
 
+
+
+
+@hug.post('/update')
+def update(body):
+
+    return repr(body)
 
 
 @hug.get('/test', output=hug.output_format.text)
