@@ -14,6 +14,8 @@ class Input:
         self._active = not self._active
 
     def set_active(self, new_active) -> None:
+        if not isinstance(new_active, bool):
+            raise TypeError("Dude its a bool you know this")
         self._active = new_active
 
     def set_hold_time(self, new_hold_time) -> None:
@@ -21,6 +23,8 @@ class Input:
             raise TypeError("New hold time needs to be an int dude")
         elif new_hold_time is None:
             raise ValueError("New hold time can't be None you dingus")
+        elif new_hold_time < 0:
+            raise ValueError("No time travel ya big wally")
         self._hold_time = new_hold_time
 
     def get_state(self):

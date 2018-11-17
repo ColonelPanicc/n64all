@@ -12,7 +12,7 @@ class APITest(unittest.TestCase):
 
     def setUp(self):
         self._controller = Controller()
-        self._analogs = [InputTypes.LEFT_ANALOG, InputTypes.RIGHT_ANALOG, InputTypes.LEFT_TRIGGER, InputTypes.RIGHT_TRIGGER]
+        self._analogs = [InputTypes.ANALOG, InputTypes.LEFT_TRIGGER, InputTypes.RIGHT_TRIGGER]
         self._buttons = [inputType for inputType in InputTypes if inputType not in self._analogs]
 
     """
@@ -69,10 +69,10 @@ class APITest(unittest.TestCase):
 
         # call set_active on these flips
         for i, input_type in enumerate(InputTypes):
-            self._controller.get_button(input_type).set_active(new_hold_times[i])
+            self._controller.get_button(input_type).set_hold_time(new_hold_times[i])
 
         # check that the ones with set_active called have been flipped by comparing to flips
-        self.assertEqual([self._controller.get_button(input_type).get_active() for input_type in InputTypes],
+        self.assertEqual([self._controller.get_button(input_type).get_held_time() for input_type in InputTypes],
                          new_hold_times)
 
     def test_input_set_active(self):
@@ -95,13 +95,13 @@ class APITest(unittest.TestCase):
         """
         Checking that negative values aren't allowed for new held-times for buttons
         """
-        self.assertRaises(ValueError, self._controller.get_button(InputTypes.LEFT_ARROW).set_hold_time, -1)
+        self.assertRaises(ValueError, self._controller.get_button(InputTypes.C_LEFT_ARROW).set_hold_time, -1)
 
     def test_input_set_held_time_invalid_type(self):
         """
         Checking that non-int and non-float values aren't allowed for new held-times for buttons
         """
-        self.assertRaises(ValueError, self._controller.get_button(InputTypes.A_BUTTON).set_hold_time, "LONG TIME")
+        self.assertRaises(TypeError, self._controller.get_button(InputTypes.A_BUTTON).set_hold_time, "LONG TIME")
 
     def test_input_set_active_invalid(self):
         """
@@ -113,86 +113,81 @@ class APITest(unittest.TestCase):
     ANALOG CONCRETE CLASS TESTING 
     """
 
-    def test_analog_constructor_angle(self):
+    def test_analog_constructor_x(self):
         """
-        Tests that all the analog buttons in the controller default at angle 0
+        Tests that all the analog buttons in the controller default at x = 0
         """
-        self.assertTrue(all(map(lambda x: self._controller.get_button(x).get_angle() == 0, self._analogs)))
+        self.assertTrue(all(map(lambda x: self._controller.get_button(x).get_x() == 0, self._analogs)))
 
-    def test_analog_constructor_tilt(self):
+    def test_analog_constructor_y(self):
         """
-        Tests that all the buttons in the controller default as inactive
+        Tests that all the analog buttons in the controller default at y = 0
         """
-        self.assertTrue(all(map(lambda x: not self._controller.get_button(x).get_tilt(), self._analogs)))
+        self.assertTrue(all(map(lambda x: self._controller.get_button(x).get_y() == 0, self._analogs)))
 
-    def test_update_angle(self):
+    def test_update_x(self):
         """
-        Tests that updating the angle of the analog buttons on the controller maintains their changes
+        Tests that updating the x of the analog buttons on the controller maintains their changes
         """
 
         # random angles
-        angles = [random() * 360 for _ in range(len(self._analogs))]
+        xs = [int(random() * 160) - 80 for _ in range(len(self._analogs))]
 
         # call set_angle on these new angles
         for i, input_type in enumerate(self._analogs):
-            self._controller.get_button(input_type).set_angle(angles[i])
+            self._controller.get_button(input_type).set_x(xs[i])
 
         # check that the state has updated the stored angles to the new randomly generated ones
-        self.assertEqual([self._controller.get_button(input_type).get_angle() for input_type in self._analogs],
-                         angles)
+        self.assertEqual([self._controller.get_button(input_type).get_x() for input_type in self._analogs],
+                         xs)
 
-    def test_update_tilt(self):
+    def test_update_y(self):
         """
-        Tests that updating the tilt of the analog buttons on the controller maintains their changes
+        Tests that updating the x of the analog buttons on the controller maintains their changes
         """
 
-        # random tilts
-        tilts = [random() for _ in range(len(self._analogs))]
+        # random angles
+        ys = [int(random() * 160) - 80 for _ in range(len(self._analogs))]
 
-        # call set_tilt on these tilts
+        # call set_angle on these new angles
         for i, input_type in enumerate(self._analogs):
-            self._controller.get_button(input_type).set_tilt(tilts[i])
+            self._controller.get_button(input_type).set_y(ys[i])
 
-        # check that the state has updated the stored tilts to the new randomly generated ones
-        self.assertEqual(tilts, [self._controller.get_button(input_type).get_tilt() for input_type in self._analogs])
+        # check that the state has updated the stored angles to the new randomly generated ones
+        self.assertEqual([self._controller.get_button(input_type).get_y() for input_type in self._analogs],
+                         ys)
 
-    def test_update_angle_invalid_negative(self):
-        """
-        Tests that updating the angle to a negative value throws a ValueError
-        """
-        self.assertRaises(ValueError, self._controller.get_button(InputTypes.RIGHT_ANALOG).set_angle, -1)
 
-    def test_update_angle_invalid_too_big(self):
+    def test_update_x_invalid_negative(self):
         """
-        Tests that updating the angle to an out of range value throws a ValueError
+        Tests that updating the x to a negative value throws a ValueError
         """
-        self.assertRaises(ValueError, self._controller.get_button(InputTypes.RIGHT_ANALOG).set_angle, 360)
+        self.assertRaises(ValueError, self._controller.get_button(InputTypes.ANALOG).set_x, -81)
 
-    def test_update_angle_invalid_type(self):
+    def test_update_x_invalid_too_big(self):
         """
-        Tests that updating the angle to an out of range value throws a ValueError
+        Tests that updating the x to an out of range value throws a ValueError
         """
-        self.assertRaises(ValueError, self._controller.get_button(InputTypes.RIGHT_ANALOG).set_angle, 360)
+        self.assertRaises(ValueError, self._controller.get_button(InputTypes.ANALOG).set_x, 234234)
 
-    def test_update_tilt_invalid_negative(self):
+    def test_update_y_invalid_too_big(self):
         """
-        Tests that updating the tilt to a negative value throws a ValueError
+        Tests that updating the y to an out of range value throws a ValueError
         """
-        self.assertRaises(ValueError, self._controller.get_button(InputTypes.RIGHT_ANALOG).set_tilt, -1)
+        self.assertRaises(ValueError, self._controller.get_button(InputTypes.ANALOG).set_y, 360)
 
-    def test_update_tilt_invalid_too_big(self):
+    def test_update_y_invalid_negative(self):
         """
-        Tests that updating the tilt to an out of range value throws a ValueError
+        Tests that updating the y to a negative value throws a ValueError
         """
+        self.assertRaises(ValueError, self._controller.get_button(InputTypes.ANALOG).set_y, -234234)
 
-        self.assertRaises(ValueError, self._controller.get_button(InputTypes.RIGHT_ANALOG).set_tilt, 1.1)
-
-    def test_update_tilt_invalid_type(self):
+    def test_update_y_invalid_type(self):
         """
         Tests that updating the tilt to an invalid type throws a TypeError
         :return:
         """
-        self.assertRaises(TypeError, self._controller.get_button(InputTypes.RIGHT_ANALOG).set_tilt, "TILTED")
+        self.assertRaises(TypeError, self._controller.get_button(InputTypes.ANALOG).set_y, "TILTED")
 
 
 if __name__ == "__main__":

@@ -29,9 +29,16 @@ class Controller:
         }
 
     def get_button(self, button):
+        if button is None:
+            raise ValueError("Button can't be none mate")
+
         if isinstance(button, InputTypes):
+            if button.value not in self._buttons:
+                raise ValueError("Not a button mate")
             return self._buttons.get(button.value, None)
         elif isinstance(button, str):
+            if button not in self._buttons:
+                raise ValueError("Not a button mate")
             return self._buttons.get(button, None)
 
     def get_state(self):
