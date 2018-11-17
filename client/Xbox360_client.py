@@ -1,18 +1,21 @@
 import pygame
 import requests
 import json
+import time
 
 # noinspection PyUnresolvedReferences
 from enums.Xbox360 import PyAxisMap, PyButtonMap, PyHatMap
 
-STATE_SERVER_UPDATE_ROUTE = "http://0d5334d4.ngrok.io/update"
-TARGET_UPDATES_PER_SECOND = 1
+STATE_SERVER_UPDATE_ROUTE = "http://10.245.8.174:8000/update"
+TARGET_UPDATES_PER_SECOND = 300
 
 ANALOG_CONVERSION_FACTOR = 127
 
 
 def get_input_data_object(js):
     hat = js.get_hat(PyHatMap.DPAD.value)
+    # get_hat is -1 for one direction, 1 for other, 0 for not pressed, converting this to individual buttons
+    # get_button returns 1 for button pressed, 0 for not pressed
     return {
         "ANALOG": (
             round(ANALOG_CONVERSION_FACTOR * js.get_axis(PyAxisMap.LEFT_THUMB_X.value)),
@@ -42,26 +45,33 @@ def main():
 
     if len(joysticks) > 0:
         js = joysticks[0]
-        print("Joystick 0 info -- Buttons: {} Axes: {} Hats: {}".format(js.get_numbuttons(), js.get_numaxes(),
-                                                                        js.get_numhats()))
+        print("Joystick 0 info -- Buttons: {} Axes: {} Hats: {}".format(
+            js.get_numbuttons(), js.get_numaxes(), js.get_numhats()))
 
-    done = False
-    while not done:
-        pygame.event.pump()
-        data_to_send = {}
+        done = False
+        request_count = 0
 
-        for js_id, js in enumerate(joysticks):
-            data_to_send[js_id] = get_input_data_object(js)
+        while not done:
+            last_time = time.time()
+            pygame.event.pump()
+            data_to_send = {}
 
-            if js.get_button(PyButtonMap.XBOX_HOME.value):
-                done = True
-                continue
+            for js_id, js in enumerate(joysticks):
+                data_to_send[js_id] = get_input_data_object(js)
 
-        data_string = json.dumps(data_to_send)
-        print("\r{}".format(data_string), end="")
-        requests.post(STATE_SERVER_UPDATE_ROUTE, data_string)
+                # Exit route with xbox home
+                if js.get_button(PyButtonMap.XBOX_HOME.value):
+                    done = True
+                    continue
 
-        clock.tick(TARGET_UPDATES_PER_SECOND)
+            request_count += 1
+            requests.post(STATE_SERVER_UPDATE_ROUTE, json.dumps(data_to_send))
+            clock.tick(TARGET_UPDATES_PER_SECOND)
+
+            elapsed = time.time() - last_time
+            print("request number {} ({}ms request time)     ".format(
+                request_count, round(1000 * elapsed)),
+                end="\r")
 
     pygame.joystick.quit()
 
