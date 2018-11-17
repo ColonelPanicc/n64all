@@ -1,4 +1,4 @@
-class Controller { 
+export default class Controller { 
 
     constructor() {
         this.buttons = {
