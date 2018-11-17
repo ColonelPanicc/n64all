@@ -17,8 +17,8 @@
 #include "json.h"
 #include "json_tokener.h"
 
-#define HOST "localhost"
-#define PORT 8082
+#define HOST "https://12a662bd.ngrok.io/state?player=0"
+#define PORT 8000
 
 int socket_connect(char *host, int portno) {
     struct hostent *server;
