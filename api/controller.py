@@ -44,3 +44,6 @@ class Controller:
     def get_state(self):
         return {i: s.get_state() for i, s in self._buttons.items()}
 
+    def __str__(self):
+        return "\n".join(["{} = {}".format(button, str(state)) for button, state in self._buttons.items()])
+
