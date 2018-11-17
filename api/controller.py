@@ -8,8 +8,8 @@ class Controller:
         self._buttons = {
             InputTypes.ANALOG.value: Analog(),
 
-            InputTypes.LEFT_TRIGGER.value: Analog(),
-            InputTypes.RIGHT_TRIGGER.value: Analog(),
+            InputTypes.LEFT_TRIGGER.value: Input(),
+            InputTypes.RIGHT_TRIGGER.value: Input(),
 
             InputTypes.A_BUTTON.value: Input(),
             InputTypes.B_BUTTON.value: Input(),

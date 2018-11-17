@@ -12,7 +12,7 @@ class APITest(unittest.TestCase):
 
     def setUp(self):
         self._controller = Controller()
-        self._analogs = [InputTypes.ANALOG, InputTypes.LEFT_TRIGGER, InputTypes.RIGHT_TRIGGER]
+        self._analogs = [InputTypes.ANALOG]
         self._buttons = [inputType for inputType in InputTypes if inputType not in self._analogs]
 
     """
