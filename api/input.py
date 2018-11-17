@@ -30,6 +30,9 @@ class Input:
     def get_state(self):
         return {'active' : self.get_active()}
 
+    def __str__(self):
+        return "Input - ({})".format(self._active)
+
 
 class Analog(Input):
 
@@ -43,14 +46,18 @@ class Analog(Input):
     def get_y(self) -> int:
         return self._y
 
+    def set_x_y(self, x, y) -> None:
+        self.set_x(x)
+        self.set_y(y)
+
     def set_x(self, x) -> None:
         if not isinstance(x, int):
             raise TypeError("New x needs to be a int dude")
         elif x is None:
             raise ValueError("New x can't be None you dingus")
-        elif x < -80:
+        elif x < -127:
             raise ValueError("New x is a little boi")
-        elif x > 80:
+        elif x > 127:
             raise ValueError("New x is a big boi")
         self._x = x
 
@@ -59,9 +66,9 @@ class Analog(Input):
             raise TypeError("New y needs to be a int dude")
         elif y is None:
             raise ValueError("New y can't be None you dingus")
-        elif y < -80:
+        elif y < -127:
             raise ValueError("New y is a little boi")
-        elif y > 80:
+        elif y > 127:
             raise ValueError("New y is a big boi")
         self._y = y
 
@@ -72,3 +79,6 @@ class Analog(Input):
         }
         s.update(super().get_state())
         return s
+
+    def __str__(self):
+        return "Input - ({}), Analog - ({}, {})".format(self._active, self._x, self._y)
