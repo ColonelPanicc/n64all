@@ -7,11 +7,14 @@ RUN apt-get install -y gcc
 RUN apt-get install -y mupen64plus
 RUN apt-get install -y libjson-c-dev
 RUN apt-get install -y mupen64plus-ui-console
-RUN apt-get install -y x11-apps
-RUN apt-get install -y xserver-xorg
-RUN apt-get install -y xorg
-RUN apt-get install -y jwm
-RUN apt-get install -y xorg-dev libxext-dev libxrender-dev libxtst-dev
+RUN apt-get install -y tightvncserver
+# RUN apt-get install -y x11-apps
+# RUN apt-get install -y xserver-xorg
+# RUN apt-get install -y xorg
+# RUN apt-get install -y jwm
+# RUN apt-get install -y  libxext-dev libxrender-dev libxtst-dev libgl1-mesa-dri
+
+
 
 # Add Roms
 RUN mkdir /roms
