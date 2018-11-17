@@ -24,6 +24,9 @@ class Controller:
             InputTypes.START: Input(),
         }
 
+    def get_button(self, button):
+        return self._buttons.get(button, None)
+
     def get_state(self):
         return {i.name: s.get_state() for i, s in self._buttons.items()}
 
