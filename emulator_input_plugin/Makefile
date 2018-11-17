@@ -198,7 +198,7 @@ OBJDIRS = $(dir $(OBJECTS))
 $(shell $(MKDIR) $(OBJDIRS))
 
 # build targets
-TARGET = mupen64plus-input-bot$(POSTFIX).$(SO_EXTENSION)
+TARGET = emulator_input_plugin$(POSTFIX).$(SO_EXTENSION)
 
 targets:
 	@echo "Mupen64Plus-input-bot makefile. "

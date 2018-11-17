@@ -12,7 +12,6 @@ make all
 
 The project uses essentially a copy and paste of the Makefile from the [regular input plugin for mupen64plus](https://github.com/mupen64plus/mupen64plus-input-sdl) with the dynamic config lib and SDL dependencies removed. It includes flags to link `libjson-c`, which it assumes has been installed into `/usr/lib` and `/usr/include`. You can get this library on Ubuntu by installing the following packages (or if you prefer, you can build the latest from source [here](https://github.com/json-c/json-c)):
 ```
-libjson-c2
 libjson-c-dev
 ```
 
