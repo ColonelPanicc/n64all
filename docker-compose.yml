@@ -20,6 +20,7 @@ services:
     restart: always
     ports:
       - "8000:8000"
+      - "5901:5901"
 
 networks:
   x11:
