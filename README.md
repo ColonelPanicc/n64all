@@ -1,6 +1,6 @@
 # N64 All
 A project for DurHack 2018.
 
-Designed by George Price, Ryan Collins, Mike Croall, Oliver McCloud, John Jennings and Sara Chen.
+Designed by John Jennings, George Price, Ryan Collins, Mike Croall, Oliver McCloud, and Sara Chen.
 
 
