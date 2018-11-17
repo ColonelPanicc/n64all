@@ -1,8 +1,6 @@
 class Controller { 
 
     constructor() {
-        
-        // enum for allowable button strings
         this.buttons = {
             "LEFT_ANALOG": Analog(),
             "RIGHT_ANALOG": Analog(),
