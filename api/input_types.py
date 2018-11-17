@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class InputTypes(Enum):
 
     LEFT_ANALOG = "L_ANALOG"

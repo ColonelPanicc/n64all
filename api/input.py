@@ -43,8 +43,8 @@ class Analog(Input):
 
     def get_state(self):
         s = {
-            'angle' : self.get_angle(),
-            'tilt' : self.get_tilt()
+            'angle': self.get_angle(),
+            'tilt': self.get_tilt()
         }
         s.update(super().get_state())
         return s

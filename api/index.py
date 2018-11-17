@@ -5,17 +5,19 @@ from controller import Controller
 
 NUM_CONTROLLERS = 4
 
-controllers = {i : Controller() for i in range(NUM_CONTROLLERS)}
+controllers = {i: Controller() for i in range(NUM_CONTROLLERS)}
+
 
 @hug.get('/state', output=hug.output_format.json)
-def get_state(player:int=0):
+def get_state(player: int=0):
     try:
         return controllers[player].get_state()
     except KeyError:
         return { 'Error' : "That's not a valid player my dude" }
 
+
 @hug.post('/update')
-def update(player:int=0, input:str="", active:bool=None, angle:float=None, tilt:float=None):
+def update(player: int=0, input: str="", active: bool=None, angle: float=None, tilt: float=None):
     controller = controllers[player]
     input = controller.get_button(input)
 
@@ -28,6 +30,9 @@ def update(player:int=0, input:str="", active:bool=None, angle:float=None, tilt:
 
     if active:
         input.set_active(active)
+        return {
+            'Error': "That's not a valid player my dude"
+        }
 
 
 @hug.get('/test', output=hug.output_format.text)
