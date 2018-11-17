@@ -1,5 +1,5 @@
-import Controller from './controller'
 
+const controller = require('./controller.js')
 const express = require('express')
 const app = express()
 const port = 7864
