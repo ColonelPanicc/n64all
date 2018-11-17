@@ -21,29 +21,33 @@
 #define PORT 8000
 
 int socket_connect(char *host, int portno) {
-    struct hostent *server;
-    struct sockaddr_in serv_addr;
-    int sockfd;
+    struct addrinfo hints, *servinfo, *p;
+    struct sockaddr_in *serv_addr;
+    int sockfd, rv;
+
+    memset(&hints, 0, sizeof(hints));
+    hints.ai_family = AF_UNSPEC;
+    hints.ai_socktype = SOCK_STREAM;
 
     /* create the socket */
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0) DebugMessage(M64MSG_ERROR, "ERROR opening socket");
 
     /* lookup the ip address */
-    server = gethostbyname(host);
-    if (server == NULL) DebugMessage(M64MSG_ERROR, "ERROR, no such host");
+    if (rv = getaddrinfo(host, "http", &hints, &servinfo) != 0) DebugMessage(M64MSG_ERROR, "ERROR, no such host");
 
     /* fill in the structure */
-    memset(&serv_addr, 0, sizeof(serv_addr));
-    serv_addr.sin_family = AF_INET;
-    serv_addr.sin_port = htons(portno);
-    memcpy(&serv_addr.sin_addr.s_addr, server->h_addr, server->h_length);
+    for(p = servinfo; p != NULL; p = p->ai_next){
+        serv_addr = (struct sockaddr_in *) p->ai_addr;
+    }
 
     /* connect the socket */
-    if (connect(sockfd, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {
+    if (connect(sockfd, (struct sockaddr *)serv_addr, sizeof(*serv_addr)) < 0) {
         DebugMessage(M64MSG_INFO, "ERROR connecting, please start bot server.");
         return -1;
     }
+
+    freeaddrinfo(servinfo);
 
     return sockfd;
 }
