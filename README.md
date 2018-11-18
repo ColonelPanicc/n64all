@@ -10,6 +10,9 @@ Designed by John Jennings, George Price, Ryan Collins, Mike Croall, Oliver McClo
 - We don't know. It was fun.
 
 ## Build Instructions
+### 0. ROMS
+Place your roms into the roms folder. The Mario Kart rom is tested to work with the filename mariokart.z64`.
+
 ### 1. Mupen Input Controller
 First, you'll need to build the C plugin for mupen. This polls a REST api, and fetches the controller values for each controller.
 
