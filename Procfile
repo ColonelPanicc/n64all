@@ -1,1 +1,1 @@
-web: gunicorn --chdir api app:__hug_wsgi__
+web: gunicorn --chdir api index:__hug_wsgi__
