@@ -15,7 +15,7 @@ NUM_CONTROLLERS = 4
 
 ollie_adapter = OllieAdapter()
 controllers = {i: Controller() for i in range(NUM_CONTROLLERS)}
-players = {i: False for i in range(NUM_CONTROLLERS)}
+players = [False for i in range(NUM_CONTROLLERS)]
 
 
 @hug.get('/state', output=hug.output_format.text)
@@ -39,20 +39,27 @@ tilt_schema = Schema(And(Optional(int), Use(int), lambda  x: -80 <= x <= 80))
 
 @hug.get('/join')
 def join():
-    for i, active in players.items():
+    for i, active in enumerate(players):
         if not active:
+            players[i] = True
             return {"success": i}
     return {"error": -1}
 
 
 @hug.post('/leave')
-def leave(player_id):
-    if player_id not in players:
+def leave(player_id: int):
+
+    print(player_id)
+
+    if player_id >= len(players) or player_id < 0:
         return {"error": "player id is not valid"}
+
     if not players[player_id]:
         return {"error": "player id has not been assigned yet"}
 
     players[player_id] = False
+
+    print(players)
     return {"success": "player id has been kicked"}
 
 
