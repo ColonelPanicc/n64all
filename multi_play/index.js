@@ -57,14 +57,17 @@ app.post("/api/add_options", function(req, res) {
 
 function sendDataDownstream() {
     // Now send state.s
+    console.log("send!");
     for(let player in state) {
         request.post('http://localhost:8000/update', state[player]);
+        console.log(state[player])
     }
 }
 // 40 frames per second.
-setTimeout(sendDataDownstream, 25);
+setTimeout(sendDataDownstream, 1);
 
-app.use('/', express.static(path.join(currentDirectory, 'client')));
+app.use(express.static(path.join(currentDirectory, "client")));
+
 app.get("*", function(req, res) {
     res.status(404).send("File not found");
 });

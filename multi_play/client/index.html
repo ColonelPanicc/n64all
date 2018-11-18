@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <script>
+            function getRandomInt(min, max) {
+                min = Math.ceil(min);
+                max = Math.floor(max);
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+            setTimeout(function() {
+                let x = getRandomInt(-60, 60);
+                let y = getRandomInt(-60, 60);
+                let a = getRandomInt(0, 1);
+            fetch('http://localhost:3000/api/add_options', {
+                method: 'post',
+                headers: {
+                    'Accept': 'application/json, text/plain, */*',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    "ANALOG": [x,y],
+                    "A_BTN": a,
+                    "B_BTN": 0,
+                    "Z_BTN": 0,
+                    "C_UP_ARROW": 0,
+                    "C_LEFT_ARROW": 0,
+                    "C_RIGHT_ARROW": 0,
+                    "C_DOWN_ARROW": 0,
+                    "L_TRIGGER": 0,
+                    "R_TRIGGER": 0,
+                    "START": 0,
+                })
+            }).then(res=>res.json())
+              .then(res => console.log(res));
+
+            }, 5);
+            
+        </script>
+    </head>
+</html>
