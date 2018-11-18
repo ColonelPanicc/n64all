@@ -49,8 +49,6 @@ def join():
 @hug.post('/leave')
 def leave(player_id: int):
 
-    print(player_id)
-
     if player_id >= len(players) or player_id < 0:
         return {"error": "player id is not valid"}
 
@@ -59,7 +57,6 @@ def leave(player_id: int):
 
     players[player_id] = False
 
-    print(players)
     return {"success": "player id has been kicked"}
 
 
