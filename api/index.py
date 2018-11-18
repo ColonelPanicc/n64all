@@ -72,7 +72,6 @@ def update(body):
 
     return ";) X"
 
-
-@hug.get('/test', output=hug.output_format.text)
-def test():
-    return bee
+@hug.static('/static')
+def my_static_dirs():
+    return ('./client',)
