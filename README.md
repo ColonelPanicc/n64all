@@ -3,6 +3,8 @@ A project for DurHack 2018.
 
 Designed by John Jennings, George Price, Ryan Collins, Mike Croall, Oliver McCloud, and Sara Chen.
 
+![alt text](https://github.com/georgeprice/n64all/blob/master/mario.png "System Architecture")
+
 ## Build Instructions
 ### 1. Mupen Input Controller
 First, you'll need to build the C plugin for mupen. This polls a REST api, and fetches the controller values for each controller.
