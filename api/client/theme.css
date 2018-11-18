@@ -1,12 +1,20 @@
 body, html {
     overflow: hidden;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+    background: #444444;
 }
 
 .icon {
   width: 500px;
   height: 500px;
   position: relative;
-  padding-top: 150px;
+  /* padding-top: 150px; */
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -15,10 +23,10 @@ body, html {
   border-radius: 100px;
   margin: 50px auto;
 }
-.controller {
+/* .controller {
   margin: auto 0;
   text-align: center;
-}
+} */
 .leftPad,
 .rightPad {
   width: 200px;
@@ -26,7 +34,7 @@ body, html {
   -webkit-border-radius: 200px;
   -moz-border-radius: 200px;
   border-radius: 200px;
-  background: #e8f0f6;
+  background: grey;
   display: inline-block;
   z-index: 12;
   position: relative;
@@ -46,7 +54,7 @@ body, html {
 .leftPad .arrowBG .arrow {
   width: 80px;
   height: 20px;
-  background: #738999;
+  background: #738999 ;
   margin: 0 auto;
   vertical-align: middle;
   position: absolute;
@@ -91,12 +99,12 @@ body, html {
   top: 30px;
 }
 .rightPad .button1 .circle {
-  background: #4c71eb;
+  background: yellow;
   top: 10px;
   left: 8px;
 }
 .rightPad .button1 .circle:nth-child(2) {
-  background: #24d0ad;
+  background: yellow;
   top: 60px;
   left: 8px;
 }
@@ -105,7 +113,7 @@ body, html {
   top: 70px;
 }
 .rightPad .button2 .circle {
-  background: #ff878f;
+  background: yellow;
   top: 10px;
   left: 8px;
 }

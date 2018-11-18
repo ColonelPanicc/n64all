@@ -26,7 +26,7 @@ fetch('http://10.245.8.174:8000/join',
 
     if(r_json.success !== undefined) {
         myId = r_json.success; 
-        alert("Given id " + myId)
+        document.getElementById("playername").innerText = "Player " + str(myId);
         window.addEventListener("devicemotion", handleMotion, true);
     }
 
@@ -65,7 +65,7 @@ function handleMotion(event) {
     if(-xTolerance <= rt && rt <= xTolerance) {
         rt = 0;
     }
-    right += rt* 0.05 
+    right += rt* 0.025 
     right = Math.min(127, Math.max(-127, right));
     state["ANALOG"][0] = right
     update()
