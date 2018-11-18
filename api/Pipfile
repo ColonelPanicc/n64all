@@ -15,6 +15,7 @@ python-mimeparse = "==1.6.0"
 requests = "==2.20.1"
 six = "==1.11.0"
 "urllib3" = "==1.24.1"
+gunicorn = "*"
 
 [requires]
 python_version = "3.5"
