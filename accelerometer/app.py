@@ -84,7 +84,12 @@ def acc():
     right += rt * 0.05
 
     right = min(127, max(-127, int(right)))
+
     STATE.state[PLAYER]["ANALOG"] = (right, 127)
+
+
+    # state[PLAYER]["ANALOG"] = (right, 127)
+    # state[PLAYER]["A_BTN"] = random.random() < 0.99
     # state[PLAYER]["B_BTN"] = forward > 0
 
     send_to_api()
@@ -107,12 +112,12 @@ def join():
 
 def leave():
     requests.post("http://localhost:8000/leave")
-    
+
 # set_interval(send_to_api, 0.25)
 if __name__ == '__main__':
     print('hello')
     atexit.register(leave)
     PLAYER = join()
     STATE = State(PLAYER)
-    app.run(debug=False, host='10.245.101.226', port=5000)
+    app.run(debug=False, host='10.245.8.174', port=5000)
 
