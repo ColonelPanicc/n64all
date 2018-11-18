@@ -4,6 +4,7 @@ import math
 import requests
 import threading
 import random
+import atexit
 #
 # def set_interval(func, sec):
 #     def func_wrapper():
@@ -13,12 +14,13 @@ import random
 #     t.start()
 #     return t
 
-PLAYER = "2"
 PLAYERS = 4
 X_TOLERANCE = 15
 
 global right
+global PLAYER
 right = 0
+PLAYER = "-1"
 
 app = Flask(__name__, static_url_path='/static')
 app.config['SECRET_KEY'] = 'georgepricehasaf'
@@ -74,9 +76,21 @@ def send_to_api():
     print(state)
     requests.post(url, data_string)
 
+def join():
+    output = requests.get("http://localhost:8000/join").json()
+
+    if "success" in output:
+        return output["success"]
+    return -1
+
+def leave():
+    requests.post("http://localhost:8000/leave")
+    
 # set_interval(send_to_api, 0.25)
 
 if __name__ == '__main__':
     print('hello')
+    atexit.register(leave)
+    PLAYER = join()
     app.run(debug=True, host='10.245.101.226', port=5000)
 
