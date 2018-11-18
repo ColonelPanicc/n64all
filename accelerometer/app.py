@@ -46,8 +46,48 @@ state = {
 def login():
     return render_template('index.html')
 
+@app.route('/a')
+def pressA():
+
+    state[PLAYER]["A_BTN"] = not state[PLAYER]["A_BTN"]
+
+    send_to_api()
+
+    # print('{} forward  {} right'.format(forward, right))
+    return json.dumps(request.json)
 
 
+@app.route('/b')
+def pressB():
+
+    state[PLAYER]["B_BTN"] = not state[PLAYER]["B_BTN"]
+
+    send_to_api()
+
+    # print('{} forward  {} right'.format(forward, right))
+    return json.dumps(request.json)
+
+
+@app.route('/z')
+def pressZ():
+
+    state[PLAYER]["Z_BTN"] = not state[PLAYER]["Z_BTN"]
+
+    send_to_api()
+
+    # print('{} forward  {} right'.format(forward, right))
+    return json.dumps(request.json)
+
+
+@app.route('/start')
+def pressStart():
+
+    state[PLAYER]["START"] = not state[PLAYER]["START"]
+
+    send_to_api()
+
+    # print('{} forward  {} right'.format(forward, right))
+    return json.dumps(request.json)
 
 @app.route('/acc', methods=['POST'])
 def acc():
@@ -87,10 +127,9 @@ def leave():
     requests.post("http://localhost:8000/leave")
     
 # set_interval(send_to_api, 0.25)
-
 if __name__ == '__main__':
     print('hello')
     atexit.register(leave)
     PLAYER = join()
-    app.run(debug=True, host='10.245.101.226', port=5000)
+    app.run(debug=True, host='10.245.30.44', port=5000)
 

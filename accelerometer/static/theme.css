@@ -1,0 +1,135 @@
+body, html {
+    overflow: hidden;
+}
+
+.icon {
+  width: 500px;
+  height: 500px;
+  position: relative;
+  padding-top: 150px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-border-radius: 100px;
+  -moz-border-radius: 100px;
+  border-radius: 100px;
+  margin: 50px auto;
+}
+.controller {
+  margin: auto 0;
+  text-align: center;
+}
+.leftPad,
+.rightPad {
+  width: 200px;
+  height: 200px;
+  -webkit-border-radius: 200px;
+  -moz-border-radius: 200px;
+  border-radius: 200px;
+  background: #e8f0f6;
+  display: inline-block;
+  z-index: 12;
+  position: relative;
+}
+.leftPad .arrowBG,
+.rightPad .arrowBG,
+.leftPad .buttonBG,
+.rightPad .buttonBG {
+  width: 160px;
+  height: 160px;
+  -webkit-border-radius: 160px;
+  -moz-border-radius: 160px;
+  border-radius: 160px;
+  background: #d9e7f1;
+  margin: 20px auto 0;
+}
+.leftPad .arrowBG .arrow {
+  width: 80px;
+  height: 20px;
+  background: #738999;
+  margin: 0 auto;
+  vertical-align: middle;
+  position: absolute;
+  top: 90px;
+  left: 60px;
+}
+.leftPad .arrowBG .arrow:after {
+  content: "";
+  width: 20px;
+  height: 80px;
+  background: #738999;
+  position: absolute;
+  top: -30px;
+  left: 30px;
+}
+.button1,
+.button2 {
+  width: 45px;
+  height: 100px;
+  -webkit-border-radius: 23px;
+  -moz-border-radius: 23px;
+  border-radius: 23px;
+  background: #e8f0f6;
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  transform: rotate(45deg);
+  position: absolute;
+}
+.button1 .circle,
+.button2 .circle {
+  width: 30px;
+  height: 30px;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  border-radius: 30px;
+  position: absolute;
+}
+.rightPad .button1 {
+  left: 60px;
+  top: 30px;
+}
+.rightPad .button1 .circle {
+  background: #4c71eb;
+  top: 10px;
+  left: 8px;
+}
+.rightPad .button1 .circle:nth-child(2) {
+  background: #24d0ad;
+  top: 60px;
+  left: 8px;
+}
+.rightPad .button2 {
+  left: 100px;
+  top: 70px;
+}
+.rightPad .button2 .circle {
+  background: #ff878f;
+  top: 10px;
+  left: 8px;
+}
+.rightPad .button2 .circle:nth-child(2) {
+  background: #ffcc00;
+  top: 60px;
+  left: 8px;
+}
+.bodyPad {
+  width: 240px;
+  height: 170px;
+  background: #e8f0f6;
+  display: inline-block;
+  vertical-align: top;
+  z-index: 10;
+  margin: 0 -100px;
+  position: relative;
+}
+.bodyPad:after {
+  content: "";
+  width: 5px;
+  height: 160px;
+  background: #e8f0f6;
+  position: absolute;
+  left: 115px;
+  top: -150px;
+}
