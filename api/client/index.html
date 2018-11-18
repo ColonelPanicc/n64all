@@ -5,35 +5,11 @@
     <title>ACELEROMETRO</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
           integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="/static/theme.css">
+    <link rel="stylesheet" type="text/css" href="static/theme.css">
 </head>
 <body>
     <script>
 
-        function pressA() {
-            let xmlhttp = new XMLHttpRequest();
-            xmlhttp.open("GET", "/a");
-            xmlhttp.send();
-        }
-
-        function pressB() {
-            let xmlhttp = new XMLHttpRequest();
-            xmlhttp.open("GET", "/b");
-            xmlhttp.send();
-        }
-
-        function pressZ() {
-            let xmlhttp = new XMLHttpRequest();
-            xmlhttp.open("GET", "/z");
-            xmlhttp.send();
-        }
-
-        function pressStart(){
-            let xmlhttp = new XMLHttpRequest();
-            xmlhttp.open("GET", "/start");
-            xmlhttp.send();
-        }
-        
     </script>
 <div class="icon">
     <div class="controller">
@@ -60,6 +36,6 @@
 
 
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
-<script type="text/javascript" src="/static/script.js"></script>
+<script type="text/javascript" src="static/script.js"></script>
 </body>
 </html>
