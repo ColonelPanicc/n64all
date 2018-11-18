@@ -64,10 +64,8 @@ def update(body):
     formatted_body = loads(body)
 
     for player in formatted_body:
-        print(player)
-        controllers[int(player)] = MikeAdapter().convert(formatted_body[player])
+         MikeAdapter().convert(formatted_body[player], controllers[int(player)])
 
-    print(controllers)
 
     return ";) X"
 

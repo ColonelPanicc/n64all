@@ -26,31 +26,24 @@ class MikeAdapter:
         pass
 
     @staticmethod
-    def convert(raw_player: dict) -> Controller:
+    def convert(raw_player: dict, c: Controller) -> None:
 
-        print(raw_player)
+        c.get_button(InputTypes.ANALOG).set_x_y(*raw_player["ANALOG"])
 
-        controller = Controller()
+        c.get_button(InputTypes.A_BUTTON).set_active(raw_player["A_BTN"] == 1)
+        c.get_button(InputTypes.B_BUTTON).set_active(raw_player["B_BTN"] == 1)
+        c.get_button(InputTypes.Z_BUTTON).set_active(raw_player["Z_BTN"] == 1)
 
-        controller.get_button(InputTypes.ANALOG).set_x_y(*raw_player["ANALOG"])
+        c.get_button(InputTypes.C_UP_ARROW).set_active(raw_player["C_UP_ARROW"] == 1)
+        c.get_button(InputTypes.C_LEFT_ARROW).set_active(raw_player["C_LEFT_ARROW"] == 1)
+        c.get_button(InputTypes.C_RIGHT_ARROW).set_active(raw_player["C_RIGHT_ARROW"] == 1)
+        c.get_button(InputTypes.C_DOWN_ARROW).set_active(raw_player["C_DOWN_ARROW"] == 1)
 
-        controller.get_button(InputTypes.A_BUTTON).set_active(raw_player["A_BTN"] == 1)
-        controller.get_button(InputTypes.B_BUTTON).set_active(raw_player["B_BTN"] == 1)
-        controller.get_button(InputTypes.Z_BUTTON).set_active(raw_player["Z_BTN"] == 1)
+        c.get_button(InputTypes.LEFT_TRIGGER).set_active(raw_player["L_TRIGGER"] == 1)
+        c.get_button(InputTypes.RIGHT_TRIGGER).set_active(raw_player["R_TRIGGER"] == 1)
 
-        controller.get_button(InputTypes.C_UP_ARROW).set_active(raw_player["C_UP_ARROW"] == 1)
-        controller.get_button(InputTypes.C_LEFT_ARROW).set_active(raw_player["C_LEFT_ARROW"] == 1)
-        controller.get_button(InputTypes.C_RIGHT_ARROW).set_active(raw_player["C_RIGHT_ARROW"] == 1)
-        controller.get_button(InputTypes.C_DOWN_ARROW).set_active(raw_player["C_DOWN_ARROW"] == 1)
+        c.get_button(InputTypes.START).set_active(raw_player["START"] == 1)
 
-        controller.get_button(InputTypes.LEFT_TRIGGER).set_active(raw_player["L_TRIGGER"] == 1)
-        controller.get_button(InputTypes.RIGHT_TRIGGER).set_active(raw_player["R_TRIGGER"] == 1)
-
-        controller.get_button(InputTypes.START).set_active(raw_player["START"] == 1)
-
-        print(controller)
-
-        return controller
 
 
 class OllieAdapter:
