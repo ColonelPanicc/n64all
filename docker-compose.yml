@@ -1,0 +1,26 @@
+#docker-compose.yml
+version: '2.0'    
+services:
+  novnc:  
+      image: psharkey/novnc:latest
+      ports:
+        - "8080:8080"
+      networks:
+        - x11
+  emulator:
+    build:
+      context: ./
+      dockerfile: ./emulator_input_plugin/Dockerfile
+    environment:
+      - DISPLAY=novnc:0.0
+    depends_on:
+      - novnc
+    networks:
+      - x11
+    restart: always
+    ports:
+      - "8000:8000"
+      - "5901:5901"
+
+networks:
+  x11:
