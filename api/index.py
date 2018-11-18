@@ -30,11 +30,11 @@ def get_state(player: int=0):
         return { 'Error' : "That's not a valid player my dude" }
 
 
-player_schema = Schema(And(int, Use(int), lambda x: 0 <= x <= NUM_CONTROLLERS))
-input_schema = Schema(And(str, Use(str), Use(str.upper), lambda x: x in [y.value for y in InputTypes]))
-active_schema = Schema(Optional(bool))
-angle_schema = Schema(And(Optional(int), Use(int), lambda  x: -80 <= x <= 80))
-tilt_schema = Schema(And(Optional(int), Use(int), lambda  x: -80 <= x <= 80))
+#player_schema = Schema(And(int, Use(int), lambda x: 0 <= x <= NUM_CONTROLLERS))
+#input_schema = Schema(And(str, Use(str), Use(str.upper), lambda x: x in [y.value for y in InputTypes]))
+#active_schema = Schema(Optional(bool))
+#angle_schema = Schema(And(Optional(int), Use(int), lambda  x: -80 <= x <= 80))
+#tilt_schema = Schema(And(Optional(int), Use(int), lambda  x: -80 <= x <= 80))
 
 
 @hug.get('/join')
