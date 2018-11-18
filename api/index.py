@@ -67,6 +67,8 @@ def update(body):
 
     formatted_body = loads(body)
 
+    print(formatted_body)
+
     for player in formatted_body:
         MikeAdapter().convert(formatted_body[player], controllers[int(player)])
 
