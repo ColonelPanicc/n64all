@@ -22,7 +22,7 @@ def get_input_data_object(js):
     return {
         "ANALOG": (
             round(ANALOG_CONVERSION_FACTOR * js.get_axis(PyAxisMap.LEFT_THUMB_X.value)),
-            round(ANALOG_CONVERSION_FACTOR * js.get_axis(PyAxisMap.LEFT_THUMB_Y.value))),
+            round(-1 * ANALOG_CONVERSION_FACTOR * js.get_axis(PyAxisMap.LEFT_THUMB_Y.value))),
         "A_BTN": js.get_button(PyButtonMap.A.value),
         "B_BTN": js.get_button(PyButtonMap.B.value),
         "Z_BTN": js.get_button(PyButtonMap.X.value),
@@ -57,29 +57,32 @@ def main():
         if my_id > -1:
             done = False
             request_count = 0
+            try:
+                while not done:
+                    last_time = time.time()
+                    pygame.event.pump()
 
-            while not done:
-                last_time = time.time()
-                pygame.event.pump()
+                    # Exit route with xbox home
+                    if js.get_button(PyButtonMap.XBOX_HOME.value):
+                        done = True
+                        continue
 
-                # Exit route with xbox home
-                if js.get_button(PyButtonMap.XBOX_HOME.value):
-                    done = True
-                    continue
+                    data_to_send = {
+                        my_id: get_input_data_object(js)
+                    }
 
-                data_to_send = {
-                    my_id: get_input_data_object(js)
-                }
+                    request_count += 1
+                    requests.post(STATE_SERVER_UPDATE_ROUTE, json.dumps(data_to_send))
+                    clock.tick(TARGET_UPDATES_PER_SECOND)
 
-                request_count += 1
-                requests.post(STATE_SERVER_UPDATE_ROUTE, json.dumps(data_to_send))
-                clock.tick(TARGET_UPDATES_PER_SECOND)
+                    elapsed = time.time() - last_time
+                    print("request number {} ({}ms request time)     ".format(
+                        request_count, round(1000 * elapsed)),
+                        end="\r")
+            except KeyboardInterrupt:
+                pass
 
-                elapsed = time.time() - last_time
-                print("request number {} ({}ms request time)     ".format(
-                    request_count, round(1000 * elapsed)),
-                    end="\r")
-
+            print("Notifying server we're leaving...")
             requests.post(STATE_SERVER_LEAVE_ROUTE, json.dumps({"player_id": my_id}))
 
     pygame.joystick.quit()
