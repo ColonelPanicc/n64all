@@ -12,18 +12,18 @@ You'll need to install the following dependencies for this to work:
 
 Navigate to the root of the repo, and download the git submodule source dependencies, by running:
 
-'''bash
+```bash
 git submodule init
 git submodule update
-'''
+```
 
 Following this, we are ready to compile.
 
 Navigate to the emulator_input_plugin folder, and then run:
 
-'''bash
+```bash
 make install
-'''
+```
 
 **NB: Sudo might need to be used here to delete previously built versions of the plugin**
 
