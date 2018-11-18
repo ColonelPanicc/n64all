@@ -5,6 +5,8 @@ import requests
 import threading
 import random
 import atexit
+
+from state import State
 #
 # def set_interval(func, sec):
 #     def func_wrapper():
@@ -16,6 +18,7 @@ import atexit
 
 PLAYERS = 4
 X_TOLERANCE = 15
+
 
 global right
 global PLAYER
@@ -31,8 +34,43 @@ app.config['SECRET_KEY'] = 'georgepricehasaf'
 def login():
     return render_template('index.html')
 
+@app.route('/a')
+def pressA():
+    STATE.state[PLAYER]["A_BTN"] = not STATE.state[PLAYER]["A_BTN"]
+
+    send_to_api()
+
+    # print('{} forward  {} right'.format(forward, right))
+    return json.dumps(request.json)
 
 
+@app.route('/b')
+def pressB():
+    STATE.state[PLAYER]["B_BTN"] = not STATE.state[PLAYER]["B_BTN"]
+    send_to_api()
+
+    # print('{} forward  {} right'.format(forward, right))
+    return json.dumps(request.json)
+
+
+@app.route('/z')
+def pressZ():
+    STATE.state[PLAYER]["Z_BTN"] = not STATE.state[PLAYER]["Z_BTN"]
+
+    send_to_api()
+
+    # print('{} forward  {} right'.format(forward, right))
+    return json.dumps(request.json)
+
+
+@app.route('/start')
+def pressStart():
+    STATE.state[PLAYER]["START"] = not STATE.state[PLAYER]["START"]
+
+    send_to_api()
+
+    # print('{} forward  {} right'.format(forward, right))
+    return json.dumps(request.json)
 
 @app.route('/acc', methods=['POST'])
 def acc():
@@ -46,36 +84,23 @@ def acc():
     right += rt * 0.05
 
     right = min(127, max(-127, int(right)))
-        
-    state = {
-        str(PLAYER) :{
-            "ANALOG": (right, 127),
-            "A_BTN": random.random() < 0.85,
-            "B_BTN": 0,
-            "Z_BTN": 0,
-            "C_UP_ARROW": 0,
-            "C_LEFT_ARROW": 0,
-            "C_RIGHT_ARROW": 0,
-            "C_DOWN_ARROW": 0,
-            "L_TRIGGER": 0,
-            "R_TRIGGER": 0,
-            "START": 0,
-        }
-    }
+
+    STATE.state[PLAYER]["ANALOG"] = (right, 127)
+
 
     # state[PLAYER]["ANALOG"] = (right, 127)
     # state[PLAYER]["A_BTN"] = random.random() < 0.99
     # state[PLAYER]["B_BTN"] = forward > 0
 
-    send_to_api(state)
+    send_to_api()
 
     # print('{} forward  {} right'.format(forward, right))
     return json.dumps(request.json)
 
-def send_to_api(state):
+def send_to_api():
     url = "http://localhost:8000/update"
-    data_string = json.dumps(state)
-    print(state)
+    data_string = json.dumps(STATE.state)
+    # print(STATE.state)
     requests.post(url, data_string)
 
 def join():
@@ -89,10 +114,10 @@ def leave():
     requests.post("http://localhost:8000/leave")
 
 # set_interval(send_to_api, 0.25)
-
 if __name__ == '__main__':
     print('hello')
     atexit.register(leave)
     PLAYER = join()
+    STATE = State(PLAYER)
     app.run(debug=False, host='10.245.8.174', port=5000)
 
