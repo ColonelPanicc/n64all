@@ -20,7 +20,7 @@
 
 #define PORT 8000
 #define HOST "localhost"
-#define _DEBUG 1
+#define _DEBUG 0
 
 int socket_connect(char *host, int portno) {
     struct hostent *server;
