@@ -1,6 +1,6 @@
 import hug
 
-from schema import Schema, And, Use, Optional, SchemaError
+#from schema import Schema, And, Use, Optional, SchemaError
 
 from bee import *
 from input import Input, Analog
