@@ -25,21 +25,6 @@ PLAYER = "-1"
 app = Flask(__name__, static_url_path='/static')
 app.config['SECRET_KEY'] = 'georgepricehasaf'
 
-state = {
-    PLAYER :{
-        "ANALOG": (0,0),
-        "A_BTN": 0,
-        "B_BTN": 0,
-        "Z_BTN": 0,
-        "C_UP_ARROW": 0,
-        "C_LEFT_ARROW": 0,
-        "C_RIGHT_ARROW": 0,
-        "C_DOWN_ARROW": 0,
-        "L_TRIGGER": 0,
-        "R_TRIGGER": 0,
-        "START": 0,
-    }
-}
 
 
 @app.route('/')
@@ -52,7 +37,7 @@ def login():
 @app.route('/acc', methods=['POST'])
 def acc():
     global right
-    data = json.loads(request.data)
+    data = request.get_json()
     rt = data['alpha']
 
     if -X_TOLERANCE <= rt <= X_TOLERANCE:
@@ -61,16 +46,33 @@ def acc():
     right += rt * 0.05
 
     right = min(127, max(-127, int(right)))
-    state[PLAYER]["ANALOG"] = (right, 127)
-    state[PLAYER]["A_BTN"] = random.random() < 0.99
+        
+    state = {
+        str(PLAYER) :{
+            "ANALOG": (right, 127),
+            "A_BTN": random.random() < 0.85,
+            "B_BTN": 0,
+            "Z_BTN": 0,
+            "C_UP_ARROW": 0,
+            "C_LEFT_ARROW": 0,
+            "C_RIGHT_ARROW": 0,
+            "C_DOWN_ARROW": 0,
+            "L_TRIGGER": 0,
+            "R_TRIGGER": 0,
+            "START": 0,
+        }
+    }
+
+    # state[PLAYER]["ANALOG"] = (right, 127)
+    # state[PLAYER]["A_BTN"] = random.random() < 0.99
     # state[PLAYER]["B_BTN"] = forward > 0
 
-    send_to_api()
+    send_to_api(state)
 
     # print('{} forward  {} right'.format(forward, right))
     return json.dumps(request.json)
 
-def send_to_api():
+def send_to_api(state):
     url = "http://localhost:8000/update"
     data_string = json.dumps(state)
     print(state)
@@ -92,5 +94,5 @@ if __name__ == '__main__':
     print('hello')
     atexit.register(leave)
     PLAYER = join()
-    app.run(debug=True, host='10.245.101.226', port=5000)
+    app.run(debug=True, host='10.245.8.174', port=5000)
 
