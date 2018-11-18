@@ -47,8 +47,8 @@ class Analog(Input):
         return self._y
 
     def set_x_y(self, x, y) -> None:
-        self.set_x(x)
-        self.set_y(y)
+        self.set_x(int(x))
+        self.set_y(int(y))
 
     def set_x(self, x) -> None:
         if not isinstance(x, int):
