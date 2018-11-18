@@ -91,16 +91,17 @@ EXPORT m64p_error CALL PluginGetVersion(m64p_plugin_type *PluginType, int *Plugi
 EXPORT void CALL InitiateControllers(CONTROL_INFO ControlInfo)
 {
     // reset controllers
-    memset(controller, 0, sizeof( SController ) * 4);
+    memset(controller, 0, sizeof( SController ) * 1);
 
     // set our CONTROL struct pointers to the array that was passed in to this function from the core
     // this small struct tells the core whether each controller is plugged in, and what type of pak is connected
     for(int i = 0; i < 4; ++i){
-      controller[i].control = ControlInfo.Controls;
+      controller[i].control = ControlInfo.Controls + i;
 
       // init controller
       controller[i].control->Present = 1;
       controller[i].control->Plugin = PLUGIN_NONE;
+      controller[i].control->RawData = 0;
     }
 
     DebugMessage(M64MSG_INFO, "%s version %i.%i.%i initialized.", PLUGIN_NAME, VERSION_PRINTF_SPLIT(PLUGIN_VERSION));

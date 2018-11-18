@@ -84,7 +84,6 @@ void read_controller(int Control) {
     int bytes, sent, received, total;
     char message[1024], response[4096]; // allocate more space than required.
     sprintf(message, "GET /state?player=%d HTTP/1.0\r\n\r\n", Control);
-
     /* send the request */
     total = strlen(message);
     sent = 0;
@@ -120,7 +119,7 @@ void read_controller(int Control) {
 
     /* parse the http response */
     char *body = strtok(response, "\n");
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 6; i++)
         body = strtok(NULL, "\n");
 
     /* parse the body of the response */
