@@ -5,6 +5,7 @@ Designed by John Jennings, George Price, Ryan Collins, Mike Croall, Oliver McClo
 
 ![alt text](https://github.com/georgeprice/n64all/blob/master/mario.png "System Architecture")
 
+**NB: Docker here doesn't yet work. Don't try to run with Docker as you'll probably fail.**
 ## Why?
 - We don't know. It was fun.
 
