@@ -15,6 +15,7 @@ NUM_CONTROLLERS = 4
 
 ollie_adapter = OllieAdapter()
 controllers = {i: Controller() for i in range(NUM_CONTROLLERS)}
+players = [False for i in range(NUM_CONTROLLERS)]
 
 
 @hug.get('/state', output=hug.output_format.text)
@@ -22,7 +23,7 @@ def get_state(player: int=0):
     try:
         state = ollie_adapter.convert(controllers[player].get_state())
         s = json.dumps(state)
-        s = s.replace("\'","\"");
+        s = s.replace("\'","\"")
         print(s)
         return s
     except KeyError:
@@ -35,32 +36,28 @@ active_schema = Schema(Optional(bool))
 angle_schema = Schema(And(Optional(int), Use(int), lambda  x: -80 <= x <= 80))
 tilt_schema = Schema(And(Optional(int), Use(int), lambda  x: -80 <= x <= 80))
 
-"""
-@hug.post('/update')
-def update(player: int=0, input: str="", active: bool=None, x: int=None, y: int=None):
-    try:
-        player = player_schema.validate(player)
-        input = input_schema.validate(input)
-        active = active_schema.validate(active)
-        x = angle_schema.validate(x)
-        y = tilt_schema.validate(y)
-    except SchemaError as e:
-        print(e)
-        return {'Error' : str(e)}
 
-    controller = controllers[player]
-    input = controller.get_button(input)
+@hug.get('/join')
+def join():
+    for i, active in enumerate(players):
+        if not active:
+            players[i] = True
+            return {"success": i}
+    return {"error": -1}
 
-    if isinstance(input, Analog):
-        if x:
-            input.set_x(x)
 
-        if y:
-            input.set_y(y)
+@hug.post('/leave')
+def leave(player_id: int):
 
-    if active:
-        input.set_active(active)
-        """
+    if player_id >= len(players) or player_id < 0:
+        return {"error": "player id is not valid"}
+
+    if not players[player_id]:
+        return {"error": "player id has not been assigned yet"}
+
+    players[player_id] = False
+
+    return {"success": "player id has been kicked"}
 
 
 @hug.post('/update')
@@ -69,7 +66,7 @@ def update(body):
     formatted_body = loads(body)
 
     for player in formatted_body:
-         MikeAdapter().convert(formatted_body[player], controllers[int(player)])
+        MikeAdapter().convert(formatted_body[player], controllers[int(player)])
 
     return ";) X"
 
