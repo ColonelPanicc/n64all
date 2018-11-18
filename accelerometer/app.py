@@ -13,7 +13,7 @@ import random
 #     t.start()
 #     return t
 
-PLAYER = "2"
+PLAYER = "0"
 PLAYERS = 4
 X_TOLERANCE = 15
 
