@@ -1,5 +1,6 @@
 var express = require('express');
 var path = require('path');
+var bodyParser = require('body-parser');
 var request = require('request'); 
 var app = express();
 
@@ -20,7 +21,7 @@ state = {0: {}, 1: {}, 2: {}, 3: {}};
 for(let key in state) {
     state[key] = {
         "ANALOG": [0,0],
-        "A_BTN": a,
+        "A_BTN": 0,
         "B_BTN": 0,
         "Z_BTN": 0,
         "C_UP_ARROW": 0,
@@ -50,15 +51,17 @@ app.post("/api/add_options", function(req, res) {
             state[player][key] = getNewValue(state[player][key], details["state"][key]);
         }
     });
+    // Done!
     res.send({success: "Done!"})
 });
 
 function sendDataDownstream() {
-    state.forEach((player) => {
+    // Now send state.s
+    for(let player in state) {
         request.post('http://localhost:8000/update', state[player]);
-    });
+    }
 }
-
+// 40 frames per second.
 setTimeout(sendDataDownstream, 25);
 
 app.use('/', express.static(path.join(currentDirectory, 'client')));
@@ -66,6 +69,6 @@ app.get("*", function(req, res) {
     res.status(404).send("File not found");
 });
 
-server.listen(app.get("port"), function() {
+app.listen(app.get("port"), function() {
     console.log("Server started on port " + app.get("port"));
 });
