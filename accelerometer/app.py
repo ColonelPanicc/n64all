@@ -94,5 +94,5 @@ if __name__ == '__main__':
     print('hello')
     atexit.register(leave)
     PLAYER = join()
-    app.run(debug=True, host='10.245.8.174', port=5000)
+    app.run(debug=False, host='10.245.8.174', port=5000)
 
