@@ -85,7 +85,7 @@ def join():
 
 def leave():
     requests.post("http://localhost:8000/leave")
-    
+
 # set_interval(send_to_api, 0.25)
 
 if __name__ == '__main__':
