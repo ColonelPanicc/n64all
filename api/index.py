@@ -6,6 +6,7 @@ from bee import *
 from input import Input, Analog
 from input_types import InputTypes
 from json import loads
+import json
 from controller import Controller
 from adapter import MikeAdapter, OllieAdapter
 
@@ -16,10 +17,14 @@ ollie_adapter = OllieAdapter()
 controllers = {i: Controller() for i in range(NUM_CONTROLLERS)}
 
 
-@hug.get('/state', output=hug.output_format.json)
+@hug.get('/state', output=hug.output_format.text)
 def get_state(player: int=0):
     try:
-        return ollie_adapter.convert(controllers[player].get_state())
+        state = ollie_adapter.convert(controllers[player].get_state())
+        s = json.dumps(state)
+        s = s.replace("\'","\"");
+        print(s)
+        return s
     except KeyError:
         return { 'Error' : "That's not a valid player my dude" }
 
@@ -65,7 +70,6 @@ def update(body):
 
     for player in formatted_body:
          MikeAdapter().convert(formatted_body[player], controllers[int(player)])
-
 
     return ";) X"
 
