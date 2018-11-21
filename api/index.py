@@ -74,4 +74,4 @@ def update(body):
 
 @hug.static('/static')
 def my_static_dirs():
-    return ('./client',)
+    return ('./webpage_controller',)
