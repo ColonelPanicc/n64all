@@ -20,7 +20,7 @@
 
 #define PORT 8000
 #define HOST "localhost"
-#define _DEBUG 0
+#define _DEBUG 1
 
 int socket_connect(char *host, int portno) {
     struct hostent *server;
@@ -112,22 +112,14 @@ void read_controller(int Control) {
     if (received == total)
         DebugMessage(M64MSG_ERROR, "ERROR storing complete response from socket");
 
-/* print the response */
-#ifdef _DEBUG
-    DebugMessage(M64MSG_INFO, response);
-#endif
-
     /* parse the http response */
-    char *body = strtok(response, "\n");
-    for (int i = 0; i < 6; i++)
-        body = strtok(NULL, "\n");
-
-    /* parse the body of the response */
-    json_object *jsonObj = json_tokener_parse(body);
+    char* p2 = strstr(response, "\r\n\r\n");
+    
+    json_object *jsonObj = json_tokener_parse(p2);
     
 /* print the object */
 #ifdef _DEBUG
-    DebugMessage(M64MSG_INFO, json_object_to_json_string(jsonObj));
+    DebugMessage(M64MSG_INFO, p2);
 #endif
 
     controller[Control].buttons.R_DPAD = 
