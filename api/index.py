@@ -12,6 +12,9 @@ from adapter import MikeAdapter, OllieAdapter
 
 NUM_CONTROLLERS = 4
 
+api = hug.API(__name__)
+api.http.add_middleware(hug.middleware.CORSMiddleware(api, max_age=10))
+
 
 ollie_adapter = OllieAdapter()
 controllers = {i: Controller() for i in range(NUM_CONTROLLERS)}
