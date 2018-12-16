@@ -5,7 +5,7 @@ import App from './App';
 import N64AllAPI from './API';
 import * as serviceWorker from './serviceWorker';
 
-const apiInstance = new N64AllAPI();
+const apiInstance = new N64AllAPI("http://localhost:8000");
 
 
 ReactDOM.render(<App api={apiInstance}/>, document.getElementById('root'));

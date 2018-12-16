@@ -36,7 +36,7 @@ class App extends Component {
       <div className="App">
         <div className="left-half">
           <div className="half-container">
-            Player {this.state.playerNumber}
+            Player {this.state.playerNumber + 1}
           </div>
         </div>
         <div className="right-half">

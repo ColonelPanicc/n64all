@@ -1,6 +1,7 @@
 import axios from "axios";
 class N64AllAPI {
-    constructor() {
+    constructor(baseURL) {
+        this.baseURL = baseURL;
         this.playerNumber = null;
     }
     join() {
@@ -8,9 +9,10 @@ class N64AllAPI {
         return new Promise((resolve, reject) => {
             axios.get(this.baseURL + "/join")
             .then((resp) => {
-                if(resp && resp.success !== undefined) {
-                    this.playerNumber = resp.success;
-                    resolve(resp.success)
+                console.log(resp.data)
+                if(resp && resp.data.success !== undefined) {
+                    this.playerNumber = resp.data.success;
+                    resolve(resp.data.success)
                 }
                 reject({err: "Server can't join."});
             })
