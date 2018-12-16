@@ -1,5 +1,8 @@
 mariokart.z64
 
+# VSCode Editor
+.vscode/
+
 # C stuff.
 ## Prerequisites
 *.d
