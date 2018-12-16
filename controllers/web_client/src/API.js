@@ -19,6 +19,11 @@ class N64AllAPI {
             });
         });
     }
+
+    leave() {
+        return axios.post(this.baseURL + "/leave", {"player_id": this.playerNumber});
+    }
+
 }
 
 export default N64AllAPI;
