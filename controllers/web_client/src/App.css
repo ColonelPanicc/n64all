@@ -1,0 +1,104 @@
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+/* Pen-specific styles */
+* {
+  box-sizing: border-box;
+}
+body {
+  font-size: 1.25rem;
+  font-family: sans-serif;
+  line-height: 150%;
+  text-shadow: 0 2px 2px #b6701e;
+  
+}
+
+section {
+  color: #fff;
+  text-align: center;
+}
+
+div {
+  height: 100%;
+}
+
+article {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  padding: 20px;
+}
+
+h1 {
+  font-size: 1.75rem;
+  margin: 0 0 0.75rem 0;
+}
+
+/* Pattern styles */
+.container {
+  display: table;
+  width: 100%;
+}
+
+.left-half {
+  background-color: #ff9e2c;
+  position: absolute;
+  left: 0px;
+  width: 50%;
+  text-align: center;
+  font-size: calc(10px + 2vmin);
+
+}
+
+.right-half {
+  background-color: #282c34;
+  color: #fff;
+  position: absolute; 
+  right: 0px;
+  width: 50%;
+  font-size: calc(10px + 2vmin);
+
+}
+
+.half-container {
+  display:flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.n64-button-default {
+  display: flex; 
+  background: red;
+  width: 10vw;
+  height: 20vh;
+  font-size: 50pt;
+  border-radius: 50%;
+  margin-left: 20px;
+  margin-right: 20px;
+  align-items: center;
+  text-indent: 25%;
+  user-select: none;
+  -moz-user-select: none;
+}
+.n64-button-default:active {
+  background: darkred;
+
+}
