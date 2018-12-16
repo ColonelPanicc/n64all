@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import N64Button from './N64Button';
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -13,8 +14,22 @@ class App extends Component {
     this.onButtonPressed = this.onButtonPressed.bind(this);
   }
 
+  componentDidMount() {
+    // Join using the passed in API, and update UI to show player number.
+    this.props.api.join().then((id) => {
+      this.setState({playerNumber: id});
+    })
+  }
+  componentWillUnmount() {
+    // Leave.
+    this.props.api.leave();
+    
+    // Reset player number.
+    this.setState({playerNumber: -1});
+  }
   onButtonPressed(btn) {
     // TODO: trigger internal state change.
+    this.props.api.update()
   }
   render() {
     return (
