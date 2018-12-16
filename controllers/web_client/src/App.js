@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-
+import N64Button from './N64Button';
 class App extends Component {
   constructor(props) {
     super(props);
@@ -9,6 +9,12 @@ class App extends Component {
     this.state = {
       playerNumber: -1
     }
+
+    this.onButtonPressed = this.onButtonPressed.bind(this);
+  }
+
+  onButtonPressed(btn) {
+    // TODO: trigger internal state change.
   }
   render() {
     return (
@@ -20,9 +26,9 @@ class App extends Component {
         </div>
         <div className="right-half">
           <div className="half-container">
-            <div className="n64-button-default">A</div>
-            <div className="n64-button-default">B</div>
-            <div className="n64-button-default"></div>
+            <N64Button text="A" onClick={this.onButtonPressed}></N64Button>
+            <N64Button text="B"></N64Button>
+            <N64Button text="C"></N64Button>
           </div>
         </div>
       </div>
