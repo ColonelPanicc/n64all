@@ -31,6 +31,8 @@ class GyroAnalogStick extends Component {
             fb: fb,
             lr: lr
         })
+
+        this.props.onUpdate([fb, lr]);
     }
     render() {
         return (

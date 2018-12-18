@@ -14,6 +14,7 @@ class App extends Component {
 
     this.onButtonPressed = this.onButtonPressed.bind(this);
     this.onPageClose = this.onPageClose.bind(this);
+    this.onAnalogUpdate = this.onAnalogUpdate.bind(this);
   }
 
   onPageClose() {
@@ -54,6 +55,9 @@ class App extends Component {
     api.update(btn, newVal)
   }
 
+  onAnalogUpdate(val) {
+    this.props.api.update("ANALOG", val);
+  }
   render() {
     return (
       <div className="App">
@@ -67,7 +71,7 @@ class App extends Component {
             <N64Button text="A" stateLabel="A_BTN" onClick={this.onButtonPressed}></N64Button>
             <N64Button text="B" stateLabel="B_BTN" onClick={this.onButtonPressed}></N64Button>
             <N64Button text="Z" stateLabel="Z_BTN" onClick={this.onButtonPressed}></N64Button>
-            <GyroAnalogStick />
+            <GyroAnalogStick onUpdate={this.onAnalogUpdate}/>
           </div>
         </div>
       </div>
