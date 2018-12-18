@@ -51,8 +51,9 @@ def join():
 
 @hug.post('/leave')
 def leave(body):
-
-    player_id = loads(body).get("player_id", -1)
+    if(body is str):
+        body = loads(body)
+    player_id = body.get("player_id", -1)
 
     if player_id >= len(players) or player_id < 0:
         return {"error": "player id is not valid"}
