@@ -51,10 +51,11 @@ def join():
 
 @hug.post('/leave')
 def leave(body):
+    if(body is str):
+        body = loads(body)
+    player_id = body.get("player_id", -1)
 
-    player_id = loads(body).get("player_id", -1)
-
-    if player_id >= len(players) or player_id < 0:
+    if player_id is None or player_id >= len(players) or player_id < 0:
         return {"error": "player id is not valid"}
 
     if not players[player_id]:
@@ -67,8 +68,10 @@ def leave(body):
 
 @hug.post('/update')
 def update(body):
+    formatted_body = body
+    if(body is str):
+        formatted_body = loads(body)
 
-    formatted_body = loads(body)
 
     for player in formatted_body:
         MikeAdapter().convert(formatted_body[player], controllers[int(player)])

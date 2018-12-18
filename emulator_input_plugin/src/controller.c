@@ -20,7 +20,7 @@
 
 #define PORT 8000
 #define HOST "localhost"
-#define _DEBUG 1
+#define _DEBUG 0
 
 int socket_connect(char *host, int portno) {
     struct hostent *server;
@@ -117,11 +117,6 @@ void read_controller(int Control) {
     
     json_object *jsonObj = json_tokener_parse(p2);
     
-/* print the object */
-#ifdef _DEBUG
-    DebugMessage(M64MSG_INFO, p2);
-#endif
-
     controller[Control].buttons.R_DPAD = 
         json_object_get_int(json_object_object_get(jsonObj, "R_DPAD"));
     controller[Control].buttons.L_DPAD = 
