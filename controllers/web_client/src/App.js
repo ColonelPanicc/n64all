@@ -8,7 +8,8 @@ class App extends Component {
 
     // now set the state
     this.state = {
-      playerNumber: -1
+      playerNumber: -1,
+      timer: null
     }
 
     this.onButtonPressed = this.onButtonPressed.bind(this);
@@ -25,13 +26,23 @@ class App extends Component {
     // Join using the passed in API, and update UI to show player number.
     this.props.api.join().then((id) => {
       this.setState({playerNumber: id});
+
+      // set up the timer to send values to server. In this case, every 30 frames (ish).
+      let t = window.setInterval(() => this.props.api.sendChangesToServer(), 30);
+      this.setState({timer: t});
     });
 
-    window.addEventListener('beforeunload', this.onPageClose);    
+    window.addEventListener('beforeunload', this.onPageClose);
+    
+   
   }
 
   componentWillUnmount() {
     window.removeEventListener('beforeunload', this.onPageClose);
+
+    if(this.state.timer !== null) {
+      window.clearInterval(this.state.timer);
+    }
   }
 
   onButtonPressed(btn) {
