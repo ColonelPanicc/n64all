@@ -12,25 +12,38 @@ class App extends Component {
     }
 
     this.onButtonPressed = this.onButtonPressed.bind(this);
+    this.onPageClose = this.onPageClose.bind(this);
   }
 
-  componentDidMount() {
-    // Join using the passed in API, and update UI to show player number.
-    this.props.api.join().then((id) => {
-      this.setState({playerNumber: id});
-    })
-  }
-  componentWillUnmount() {
-    // Leave.
+  onPageClose() {
     this.props.api.leave();
     
     // Reset player number.
     this.setState({playerNumber: -1});
   }
+  componentDidMount() {
+    // Join using the passed in API, and update UI to show player number.
+    this.props.api.join().then((id) => {
+      this.setState({playerNumber: id});
+    });
+
+    window.addEventListener('beforeunload', this.onPageClose);    
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('beforeunload', this.onPageClose);
+  }
+
   onButtonPressed(btn) {
     // TODO: trigger internal state change.
-    this.props.api.update()
+    const api = this.props.api;
+    // 1 -> 0; 0 -> 1. Just toggle
+    // TODO: don't toggle, but set value ONCE, and reset after update.
+    const newVal = api.playerState[btn] === 0 ? 1 : 0;
+    console.log(btn, newVal);
+    api.update(btn, newVal)
   }
+
   render() {
     return (
       <div className="App">
@@ -41,9 +54,9 @@ class App extends Component {
         </div>
         <div className="right-half">
           <div className="half-container">
-            <N64Button text="A" onClick={this.onButtonPressed}></N64Button>
-            <N64Button text="B"></N64Button>
-            <N64Button text="C"></N64Button>
+            <N64Button text="A" stateLabel="A_BTN" onClick={this.onButtonPressed}></N64Button>
+            <N64Button text="B" stateLabel="B_BTN" onClick={this.onButtonPressed}></N64Button>
+            <N64Button text="Z" stateLabel="Z_BTN" onClick={this.onButtonPressed}></N64Button>
           </div>
         </div>
       </div>

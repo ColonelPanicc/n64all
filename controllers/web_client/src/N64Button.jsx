@@ -5,7 +5,7 @@ class N64Button extends Component {
   render() {
     console.log(this.props)
     return (
-      <div className="n64-button-default" onClick={this.props.onClick}>
+      <div className="n64-button-default" onClick={() => this.props.onClick(this.props.stateLabel)}>
         {this.props.text}
       </div>
     )
