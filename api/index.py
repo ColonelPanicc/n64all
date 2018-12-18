@@ -68,8 +68,10 @@ def leave(body):
 
 @hug.post('/update')
 def update(body):
+    formatted_body = body
+    if(body is str):
+        formatted_body = loads(body)
 
-    formatted_body = loads(body)
 
     for player in formatted_body:
         MikeAdapter().convert(formatted_body[player], controllers[int(player)])
