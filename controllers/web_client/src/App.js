@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import N64Button from './N64Button';
-
+import GyroAnalogStick from './GyroAnalogStick';
 class App extends Component {
   constructor(props) {
     super(props);
@@ -33,8 +33,7 @@ class App extends Component {
     });
 
     window.addEventListener('beforeunload', this.onPageClose);
-    
-   
+
   }
 
   componentWillUnmount() {
@@ -68,6 +67,7 @@ class App extends Component {
             <N64Button text="A" stateLabel="A_BTN" onClick={this.onButtonPressed}></N64Button>
             <N64Button text="B" stateLabel="B_BTN" onClick={this.onButtonPressed}></N64Button>
             <N64Button text="Z" stateLabel="Z_BTN" onClick={this.onButtonPressed}></N64Button>
+            <GyroAnalogStick />
           </div>
         </div>
       </div>
