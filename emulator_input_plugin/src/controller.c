@@ -72,83 +72,84 @@ void clear_controller() {
     }
 }
 
-void read_controller(int Control) {
+void read_controller() {
+    for(int Control = 0; Control < 4; Control++) {
+         int sockfd = socket_connect(HOST, PORT);
 
-    int sockfd = socket_connect(HOST, PORT);
+            if (sockfd == -1) {
+                clear_controller();
+                return;
+            }
 
-    if (sockfd == -1) {
-        clear_controller();
-        return;
+            int bytes, sent, received, total;
+            char message[1024], response[4096]; // allocate more space than required.
+            sprintf(message, "GET /state?player=%d HTTP/1.0\r\n\r\n", Control);
+            /* send the request */
+            total = strlen(message);
+            sent = 0;
+            do {
+                bytes = write(sockfd, message + sent, total - sent);
+                if (bytes < 0)
+                    DebugMessage(M64MSG_ERROR, "ERROR writing message to socket");
+                if (bytes == 0)
+                    break;
+                sent += bytes;
+            } while (sent < total);
+
+            /* receive the response */
+            memset(response, 0, sizeof(response));
+            total = sizeof(response) - 1;
+            received = 0;
+            do {
+                bytes = read(sockfd, response + received, total - received);
+                if (bytes < 0)
+                    DebugMessage(M64MSG_ERROR, "ERROR reading response from socket");
+                if (bytes == 0)
+                    break;
+                received += bytes;
+            } while (received < total);
+
+            if (received == total)
+                DebugMessage(M64MSG_ERROR, "ERROR storing complete response from socket");
+
+            /* parse the http response */
+            char* p2 = strstr(response, "\r\n\r\n");
+
+            json_object *jsonObj = json_tokener_parse(p2);
+
+            controller[Control].buttons.R_DPAD =
+                json_object_get_int(json_object_object_get(jsonObj, "R_DPAD"));
+            controller[Control].buttons.L_DPAD =
+                json_object_get_int(json_object_object_get(jsonObj, "L_DPAD"));
+            controller[Control].buttons.D_DPAD =
+                json_object_get_int(json_object_object_get(jsonObj, "D_DPAD"));
+            controller[Control].buttons.U_DPAD =
+                json_object_get_int(json_object_object_get(jsonObj, "U_DPAD"));
+            controller[Control].buttons.START_BUTTON =
+                json_object_get_int(json_object_object_get(jsonObj, "START_BUTTON"));
+            controller[Control].buttons.Z_TRIG =
+                json_object_get_int(json_object_object_get(jsonObj, "Z_TRIG"));
+            controller[Control].buttons.B_BUTTON =
+                json_object_get_int(json_object_object_get(jsonObj, "B_BUTTON"));
+            controller[Control].buttons.A_BUTTON =
+                json_object_get_int(json_object_object_get(jsonObj, "A_BUTTON"));
+            controller[Control].buttons.R_CBUTTON =
+                json_object_get_int(json_object_object_get(jsonObj, "R_CBUTTON"));
+            controller[Control].buttons.L_CBUTTON =
+                json_object_get_int(json_object_object_get(jsonObj, "L_CBUTTON"));
+            controller[Control].buttons.D_CBUTTON =
+                json_object_get_int(json_object_object_get(jsonObj, "D_CBUTTON"));
+            controller[Control].buttons.U_CBUTTON =
+                json_object_get_int(json_object_object_get(jsonObj, "U_CBUTTON"));
+            controller[Control].buttons.R_TRIG =
+                json_object_get_int(json_object_object_get(jsonObj, "R_TRIG"));
+            controller[Control].buttons.L_TRIG =
+                json_object_get_int(json_object_object_get(jsonObj, "L_TRIG"));
+            controller[Control].buttons.X_AXIS =
+                json_object_get_int(json_object_object_get(jsonObj, "X_AXIS"));
+            controller[Control].buttons.Y_AXIS =
+                json_object_get_int(json_object_object_get(jsonObj, "Y_AXIS"));
+
+            close(sockfd);
     }
-
-    int bytes, sent, received, total;
-    char message[1024], response[4096]; // allocate more space than required.
-    sprintf(message, "GET /state?player=%d HTTP/1.0\r\n\r\n", Control);
-    /* send the request */
-    total = strlen(message);
-    sent = 0;
-    do {
-        bytes = write(sockfd, message + sent, total - sent);
-        if (bytes < 0)
-            DebugMessage(M64MSG_ERROR, "ERROR writing message to socket");
-        if (bytes == 0)
-            break;
-        sent += bytes;
-    } while (sent < total);
-
-    /* receive the response */
-    memset(response, 0, sizeof(response));
-    total = sizeof(response) - 1;
-    received = 0;
-    do {
-        bytes = read(sockfd, response + received, total - received);
-        if (bytes < 0)
-            DebugMessage(M64MSG_ERROR, "ERROR reading response from socket");
-        if (bytes == 0)
-            break;
-        received += bytes;
-    } while (received < total);
-
-    if (received == total)
-        DebugMessage(M64MSG_ERROR, "ERROR storing complete response from socket");
-
-    /* parse the http response */
-    char* p2 = strstr(response, "\r\n\r\n");
-    
-    json_object *jsonObj = json_tokener_parse(p2);
-    
-    controller[Control].buttons.R_DPAD = 
-        json_object_get_int(json_object_object_get(jsonObj, "R_DPAD"));
-    controller[Control].buttons.L_DPAD = 
-        json_object_get_int(json_object_object_get(jsonObj, "L_DPAD"));
-    controller[Control].buttons.D_DPAD = 
-        json_object_get_int(json_object_object_get(jsonObj, "D_DPAD"));
-    controller[Control].buttons.U_DPAD = 
-        json_object_get_int(json_object_object_get(jsonObj, "U_DPAD"));
-    controller[Control].buttons.START_BUTTON = 
-        json_object_get_int(json_object_object_get(jsonObj, "START_BUTTON"));
-    controller[Control].buttons.Z_TRIG = 
-        json_object_get_int(json_object_object_get(jsonObj, "Z_TRIG"));
-    controller[Control].buttons.B_BUTTON = 
-        json_object_get_int(json_object_object_get(jsonObj, "B_BUTTON"));
-    controller[Control].buttons.A_BUTTON = 
-        json_object_get_int(json_object_object_get(jsonObj, "A_BUTTON"));
-    controller[Control].buttons.R_CBUTTON = 
-        json_object_get_int(json_object_object_get(jsonObj, "R_CBUTTON"));
-    controller[Control].buttons.L_CBUTTON = 
-        json_object_get_int(json_object_object_get(jsonObj, "L_CBUTTON"));
-    controller[Control].buttons.D_CBUTTON = 
-        json_object_get_int(json_object_object_get(jsonObj, "D_CBUTTON"));
-    controller[Control].buttons.U_CBUTTON = 
-        json_object_get_int(json_object_object_get(jsonObj, "U_CBUTTON"));
-    controller[Control].buttons.R_TRIG = 
-        json_object_get_int(json_object_object_get(jsonObj, "R_TRIG"));
-    controller[Control].buttons.L_TRIG = 
-        json_object_get_int(json_object_object_get(jsonObj, "L_TRIG"));
-    controller[Control].buttons.X_AXIS = 
-        json_object_get_int(json_object_object_get(jsonObj, "X_AXIS"));
-    controller[Control].buttons.Y_AXIS = 
-        json_object_get_int(json_object_object_get(jsonObj, "Y_AXIS"));
-
-    close(sockfd);
 }

@@ -242,7 +242,7 @@ clean:
 rebuild: clean all
 
 # build dependency files
-CFLAGS += -MD -MP
+CFLAGS += -MD -MP -lpthread
 -include $(OBJECTS:.o=.d)
 
 # standard build rules

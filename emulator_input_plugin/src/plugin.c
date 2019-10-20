@@ -5,6 +5,7 @@
 
 #include <unistd.h>
 #include <sys/socket.h>
+#include <pthread.h>
 
 #include "plugin.h"
 #include "version.h"
@@ -105,6 +106,10 @@ EXPORT void CALL InitiateControllers(CONTROL_INFO ControlInfo)
     }
 
     DebugMessage(M64MSG_INFO, "%s version %i.%i.%i initialized.", PLUGIN_NAME, VERSION_PRINTF_SPLIT(PLUGIN_VERSION));
+
+    /* Start local controller service in new thread */
+    pthread_t thread_id;
+    pthread_create(&thread_id, NULL, read_controller, NULL);
 }
 
 /******************************************************************
@@ -174,7 +179,7 @@ EXPORT void CALL RomClosed(void)
 *******************************************************************/
 EXPORT void CALL GetKeys( int Control, BUTTONS *Keys )
 {
-    read_controller(Control);
+//    read_controller(Control);
 
     #ifdef _DEBUG
       DebugMessage(M64MSG_VERBOSE, "Controller #%d value: 0x%8.8X", 0, *(int *)&controller[Control].buttons );
