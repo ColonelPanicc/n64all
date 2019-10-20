@@ -17,7 +17,7 @@ Place your roms into the roms folder. The Mario Kart rom is tested to work with 
 First, you'll need to build the C plugin for mupen. This polls a REST api, and fetches the controller values for each controller.
 
 You'll need to install the following dependencies for this to work:
-- lib-json
+- libjson-dev-c (known informally as lib-json)
 
 Navigate to the root of the repo, and download the git submodule source dependencies, by running:
 
@@ -49,7 +49,7 @@ And then drop into a pipenv shell and run using hug.
 
 ```bash
 pipenv shell
-hug -t index.py
+hug -f index.py
 ```
 
 ### 3.0 (optional) Start other bots/apps
