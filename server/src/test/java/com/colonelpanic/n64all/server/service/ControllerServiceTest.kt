@@ -1,5 +1,6 @@
 package com.colonelpanic.n64all.server.service
 
+import com.colonelpanic.n64all.server.StateFactory
 import com.colonelpanic.n64all.server.model.ControllerProperty.ANALOG_X
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
@@ -7,10 +8,12 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class ControllerServiceTest {
+    private val stateProvider = StateFactory()
     private var sut: ControllerService? = null
+
     @BeforeEach
     fun setUp() {
-        sut = ControllerService()
+        sut = ControllerService(stateProvider)
     }
 
     @AfterEach
