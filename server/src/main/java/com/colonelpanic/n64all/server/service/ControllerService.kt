@@ -4,11 +4,14 @@ import com.colonelpanic.n64all.server.model.ControllerProperty
 import com.colonelpanic.n64all.server.model.ControllerState
 import com.google.common.collect.Maps
 import com.google.inject.Singleton
+import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.util.logging.LogManager
 
 @Singleton
 class ControllerService {
     private val players: MutableMap<Int, PlayerController?>
+
     fun addPlayer(playerId: Int) {
         if (players.containsKey(playerId)) return
         // TODO use a Guice supplied Factory to get the appropriate state.
@@ -32,7 +35,7 @@ class ControllerService {
     }
 
     companion object {
-        private val logger = LoggerFactory.getLogger(ControllerService::class.java)
+        var logger: Logger = LoggerFactory.getLogger(this::class.java)
     }
 
     init {
